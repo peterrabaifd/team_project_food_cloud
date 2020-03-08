@@ -1,7 +1,21 @@
 from django import forms
-from rango.models import Page, Category
+from food_cloud.models import *
 from django.contrib.auth.models import User
-from rango.models import UserProfile
+from food_cloud.models import UserProfile
+
+class MealForm(forms.ModelForm):
+	meal_id = forms.IntegerField(initial=0)
+	meal_name = forms.CharField(max_length=30,
+	help_text="Please enter the meal name.")
+	description = forms.CharField(max_length=200)
+	price = forms.IntegerField(initial=0)
+	restaurant_id = forms.IntegerField(initial=0)
+	picture = forms.ImageField()
+	slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+	
+	class Meta:
+		model = Meal
+		fields = ('meal_name',)
 
 class CategoryForm(forms.ModelForm):
 	name = forms.CharField(max_length=128,
@@ -44,4 +58,4 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('website', 'picture',)
+		fields = ('email_address', 'picture', 'isCompany')

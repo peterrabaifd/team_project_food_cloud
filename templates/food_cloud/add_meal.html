@@ -2,19 +2,19 @@
 {% load staticfiles %}
 
 {% block title_block %}
-	Add Page
+	Add a meal
 {% endblock %}
 
 {% block body_block %}
 	<div class="jumbotron p-4">
 		<div class="container">
-			<h1 class="jumbotron-heading">Add a page</h1>
+			<h1 class="jumbotron-heading">Add a meal (WIP)</h1>
 		</div>
 	</div>
-	
+		
 	<div class="container">
 		<div class="row">
-			<form role="form" id="page_form" method="post" action="{% url 'food_cloud:add_page' category.slug %}">
+			<form role="form" id="meal_form" method="post" action="{% url 'food_cloud:add_meal' %}">
 			{% csrf_token %}
 			{% for hidden in form.hidden_fields %}
 				{{ hidden }}
@@ -27,10 +27,25 @@
 			{% endfor %}
 				<br />
 				<button class="btn btn-primary" type="submit" name="submit">
-					Add Page
+					Create Meal
 				</button>
 				<div class="p-5"></div>
 			</form>
 		</div>
 	</div>
+		
+		<div>
+			<form id="meal_form" method="post" action="/food_cloud/add_meal/">
+				{% csrf_token %}
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
+				{% for field in form.visible_fields %}
+					{{ field.errors }}
+					{{ field.help_text }}
+					{{ field }}
+				{% endfor %}
+				<input type="submit" name="submit" value="Create Meal" />
+			</form>
+		</div>
 {% endblock %}

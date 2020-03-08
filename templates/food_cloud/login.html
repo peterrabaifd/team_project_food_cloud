@@ -1,4 +1,4 @@
-{% extends 'rango/base.html' %}
+{% extends 'food_cloud/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -8,8 +8,8 @@
 
 {% block body_block %}
 	<!--Body block -->
-<h1>Login to Rango</h1>
-<form id="login_form" method="post" action="{% url 'rango:login' %}">
+<h1>Login to food_cloud</h1>
+<form id="login_form" method="post" action="{% url 'food_cloud:login' %}">
 	{% csrf_token %}
 	Username: <input type="text" name="username" value="" size="50" />
 	<br />

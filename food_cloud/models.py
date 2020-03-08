@@ -2,6 +2,51 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
+class UserProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	email_address = models.EmailField()
+	picture = models.ImageField(upload_to='profile_images', blank=True)
+	isCompany = models.BooleanField(default=False)
+	restaurant_id = models.IntegerField(default=0)
+	def __str__(self):
+		return self.user.username
+		
+class Meal(models.Model):
+	meal_id = models.IntegerField()
+	meal_name = models.CharField(max_length=30, unique=True)
+	description = models.CharField(max_length=200, unique=False)
+	price = models.IntegerField()
+	restaurant_id = models.IntegerField(default=0)
+	picture = models.ImageField(upload_to='profile_images', blank=True)
+	
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.meal_name)
+		super(Meal, self).save(*args, **kwargs)
+	
+	def __str__(self):
+		return self.name
+
+class Restaurant(models.Model):
+	restaurant_id = models.IntegerField()
+	restaurant_name = models.CharField(max_length=30, unique=True)
+	type = models.CharField(max_length=30, unique=False)
+	average_rating = models.IntegerField()
+	
+class Order(models.Model):
+	user_id = models.IntegerField()
+	meal_id = models.IntegerField()
+	date = models.DateTimeField()
+	
+class Favourite(models.Model):
+	user_id = models.IntegerField()
+	meal_id = models.IntegerField()
+	
+class Rating(models.Model):
+	user_id = models.IntegerField()
+	restaurant_id = models.IntegerField()
+	rating = models.IntegerField()
+	
+
 class Category(models.Model):
 	name = models.CharField(max_length=128, unique=True)
 	views = models.IntegerField(default=0)
@@ -29,12 +74,3 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
-		
-class UserProfile(models.Model):
-	# This line is required. Links UserProfile to a User model instance.
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	# The additional attributes we wish to include.
-	website = models.URLField(blank=True)
-	picture = models.ImageField(upload_to='profile_images', blank=True)
-	def __str__(self):
-		return self.user.username
