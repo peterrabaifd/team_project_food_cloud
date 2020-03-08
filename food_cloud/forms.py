@@ -4,13 +4,15 @@ from django.contrib.auth.models import User
 from food_cloud.models import UserProfile
 
 class MealForm(forms.ModelForm):
-	meal_id = forms.IntegerField(initial=0)
-	meal_name = forms.CharField(max_length=30,
+	meal_id = forms.IntegerField(widget=forms.HiddenInput(), initial=0, required=False)
+	meal_name = forms.CharField(max_length=30, 
 	help_text="Please enter the meal name.")
-	description = forms.CharField(max_length=200)
-	price = forms.IntegerField(initial=0)
-	restaurant_id = forms.IntegerField(initial=0)
-	picture = forms.ImageField()
+	description = forms.CharField(max_length=200,
+	help_text="Please enter the meal description.")
+	price = forms.IntegerField(help_text="Please enter the meal price.")
+	restaurant_id = forms.IntegerField(help_text="Please enter the restaurant id.")
+	picture = forms.ImageField(required=False,
+	help_text="Please upload a picture.")
 	slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 	
 	class Meta:

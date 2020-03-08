@@ -5,7 +5,7 @@ from food_cloud.models import *
 from food_cloud.forms import *
 from django.shortcuts import redirect
 from django.urls import reverse
-from food_cloud.forms import UserForm, UserProfileForm
+from food_cloud.forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -20,9 +20,12 @@ def index(request):
 
 	page_list = Page.objects.order_by('-views')[:5]
 	
+	meal_list = Meal.objects.order_by('meal_name')
+	
 	context_dict = {}
 	context_dict['categories'] = category_list
 	context_dict['pages'] = page_list
+	context_dict['meals'] = meal_list
 	
 	visitor_cookie_handler(request)
 	context_dict['visits'] = request.session['visits']
@@ -58,6 +61,15 @@ def search(request):
 			result_list = run_query(query)
 	print("DEBUG query=" + query)
 	return render(request, 'food_cloud/search.html', {'result_list': result_list, 'query': query})
+	
+def show_meal(request, meal_name_slug):
+	context_dict = {}
+	try:
+		meal = Meal.objects.get(slug=meal_name_slug)
+		context_dict['meal'] = meal
+	except Meal.DoesNotExist:
+		context_dict['meal'] = None
+	return render(request, 'food_cloud/meal.html', context=context_dict)
 	
 def show_category(request, category_name_slug):
 	context_dict = {}

@@ -25,6 +25,7 @@ urlpatterns = [
 	path('index/', views.index, name='index'),
 	path('about/', views.about, name='about'),
 	path('add_meal/', views.add_meal, name='add_meal'),
+	path('meal/<slug:meal_name_slug>/', views.show_meal, name='show_meal'),
 	path('search/', views.search, name='search'),
 	path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
 	path('add_category/', views.add_category, name='add_category'),

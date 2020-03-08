@@ -6,16 +6,15 @@
 {% endblock %}
 
 {% block body_block %}
-	<!--Body block -->
 		<div class="jumbotron p-4">
 			<div class="container">
 				<h1 class="jumbotron-heading">food_cloud says...</h1>
 				<div>
 					<h2 class="h2">
 					{% if user.is_authenticated %}
-					howdy {{ user.username }}!
+					Hello {{ user.username }}!
 					{% else %}
-					hey there partner!
+					Hello!
 					{% endif %}
 					</h2>
 					<strong>{{ boldmessage }}</strong>
@@ -25,8 +24,8 @@
 		
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6">
-					<div class="card mb-6">
+				<div class="col-md-4">
+					<div class="card mb-4">
 						<div class="card-body">
 							<h2>Most Liked Categories</h2>
 							<p class="card-text">
@@ -47,8 +46,8 @@
 					</div>
 				</div>
 				
-				<div class="col-md-6">
-					<div class="card mb-6">
+				<div class="col-md-4">
+					<div class="card mb-4">
 						<div class="card-body">
 							<h2>Most Viewed Pages</h2>
 							<p class="card-text">
@@ -62,6 +61,30 @@
 							</ul>
 							{% else %}
 							<strong>There are no pages present.</strong>
+							{% endif %}
+							</p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4">
+					<div class="card mb-4">
+						<div class="card-body">
+							<h2>Meals(WIP)</h2>
+							<p class="card-text">
+							{% if meals %}
+							<ul class="list-group">
+							{% for meal in meals %}
+								<li class="list-group-item">
+									<ul class="list-group">
+										<li class="list-group-item">{{ meal.meal_name }}</li>
+										<li class="list-group-item">{{ meal.description }}</li>
+									</ul>
+								</li>
+							{% endfor %}
+							</ul>
+							{% else %}
+							<strong>There are no meals present.</strong>
 							{% endif %}
 							</p>
 						</div>
