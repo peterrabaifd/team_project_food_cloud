@@ -1,0 +1,22 @@
+{% load food_cloud_template_tags %}
+<ul class="nav flex-column">
+{% if meals %}
+	{% for c in meals %}
+	{% if c == current_meal %}
+		<li class="nav-item">
+		<a class="nav-link active" href="{% url 'food_cloud:show_meal' c.slug %}">
+			<span data-feather="archive"></span>{{ c.meal_name }}
+		</a>
+		</li>
+	{% else %}
+		<li class="nav-item">
+		<a class="nav-link" href="{% url 'food_cloud:show_meal' c.slug %}">
+		<span data-feather="archive"></span>{{ c.meal_name }}
+		</a>
+		</li>
+	{% endif %}
+	{% endfor %}
+{% else %}
+	<li class="nav-item">There are no meals present.</li>
+{% endif %}
+</ul>

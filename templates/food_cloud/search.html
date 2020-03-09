@@ -1,4 +1,4 @@
-{% extends 'rango/base.html' %}
+{% extends 'food_cloud/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -8,7 +8,7 @@
 {% block body_block %}
 	<div class="jumbotron p-4">
 		<div class="container">
-		<h1 class="jumbotron-heading">Search with Rango</h1>
+		<h1 class="jumbotron-heading">Search with food_cloud</h1>
 		</div>
 	</div>
 
@@ -16,7 +16,7 @@
 		<form class="form-inline"
 			id="user-form"
 			method="post"
-			action="{% url 'rango:search' %}">
+			action="{% url 'food_cloud:search' %}">
 			{% csrf_token %}
 
 			<div class="form-group">

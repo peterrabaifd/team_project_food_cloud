@@ -1,0 +1,27 @@
+{% extends 'food_cloud/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+
+	{% if meal %}
+		{{ meal.name }}
+	{% else %}
+		Unknown Meal
+	{% endif %}
+	
+{% endblock %}
+
+{% block body_block %}
+
+		<div class="jumbotron p-4">
+			<div class="container">
+				{% if meal %}
+					<h1>{{ meal.meal_name }}</h1>
+					<h1>{{ meal.description }}</h1>
+				{% else %}
+					The specified meal does not exist.
+				{% endif %}
+			</div>
+		</div>
+
+{% endblock %}
