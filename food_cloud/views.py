@@ -41,6 +41,22 @@ def about(request):
 	response = render(request, 'food_cloud/about.html', context=context_dict)
 	return response
 	
+def contact(request):
+	context_dict = {}
+	context_dict['boldmessage'] = 'Contact us page(WIP)'
+	visitor_cookie_handler(request)
+	context_dict['visits'] = request.session['visits']
+	response = render(request, 'food_cloud/contact.html', context=context_dict)
+	return response
+	
+def my_account(request):
+	context_dict = {}
+	context_dict['boldmessage'] = 'my_account(WIP)'
+	visitor_cookie_handler(request)
+	context_dict['visits'] = request.session['visits']
+	response = render(request, 'food_cloud/my_account.html', context=context_dict)
+	return response
+	
 def add_meal(request):
 	form = MealForm()
 	if request.method == 'POST':

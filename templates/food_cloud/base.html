@@ -23,15 +23,16 @@
     <body>
         <header>
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
-                <a class="navbar-brand p-2" href="{% url 'food_cloud:index' %}">food_cloud</a>
+               <!--  <a class="navbar-brand p-2" href="{% url 'food_cloud:index' %}">food_cloud</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> -->
                 
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index' %}">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about' %}">About</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact' %}">Contact</a></li>
 						<li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search' %}">Search</a></li>
 						<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_meal' %}">Add Meal</a></li>
                         {% if user.is_authenticated %}
@@ -39,27 +40,31 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/food_cloud/">Logout</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_category' %}">Add Category</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
+						
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'registration_register' %}">Register Here</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
                         {% endif %}
                     </ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:my_account' %}">UserName: {{ user.username }}</a></li>
+					</ul>
                 </div>
             </nav>
         </header>
         
         <div class="container-fluid">
             <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+<!--                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                     {% block sidebar_block %}
                         {% get_category_list category %}
                     {% endblock %}
                     </div>
-                </nav>
+                </nav> -->
                 
-                <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">		
-                    {% block body_block %}{% endblock %}
+                <main role="main" class="col-md-20  ml-sm-auto col-lg-12 px-4">		
+                    {% block body_block %}min-width: fit-content;{% endblock %}
                     
                     <!-- FOOTER -->
                     <footer>
