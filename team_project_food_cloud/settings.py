@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'food_cloud',
-	'registration',
+    'food_cloud',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-				'django.template.context_processors.media',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -125,7 +125,7 @@ REGISTRATION_OPEN = True
 # If True, the user will be automatically logged in after registering.
 REGISTRATION_AUTO_LOGIN = True
 # The URL that Django redirects users to after logging in.
-LOGIN_REDIRECT_URL = 'rango:index'
+LOGIN_REDIRECT_URL = 'food_cloud:index'
 # The page users are directed to if they are not logged in.
 # This was set in a previous chapter. The registration package uses this, too.
 LOGIN_URL = 'auth_login'
