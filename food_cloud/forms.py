@@ -1,7 +1,8 @@
 from django import forms
 from food_cloud.models import *
 from django.contrib.auth.models import User
-from food_cloud.models import UserProfile
+from food_cloud.models import *
+from django.contrib.auth.forms import UserCreationForm
 
 class MealForm(forms.ModelForm):
 	meal_id = forms.IntegerField(widget=forms.HiddenInput(), initial=0, required=False)
@@ -26,9 +27,7 @@ class CategoryForm(forms.ModelForm):
 	likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 	slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
-	# An inline class to provide additional information on the form.
 	class Meta:
-		# Provide an association between the ModelForm and a model
 		model = Category
 		fields = ('name',)
 
@@ -60,4 +59,15 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
-		fields = ('email_address', 'picture', 'isCompany')
+		fields = ('picture',)
+		
+class RestaurantForm(forms.ModelForm):
+	password = forms.CharField(widget=forms.PasswordInput())
+	class Meta:
+		model = User
+		fields = ('username', 'email', 'password',)	
+
+class RestaurantProfileForm(forms.ModelForm):
+	class Meta:
+		model = RestaurantProfile
+		fields = ('type',)

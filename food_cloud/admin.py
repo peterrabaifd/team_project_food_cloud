@@ -1,6 +1,5 @@
 from django.contrib import admin
-from food_cloud.models import Category, Page
-from food_cloud.models import UserProfile
+from food_cloud.models import *
 
 class CategoryAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug':('name',)}

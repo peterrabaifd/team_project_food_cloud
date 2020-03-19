@@ -10,21 +10,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from food_cloud.bing_search import run_query
+from django.contrib.auth.models import User
+from django.views.generic import View
+from django.utils.decorators import method_decorator
 
 def index(request):
 	context_dict = {}
 	#context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
 	#context_dict['categories'] = category_list
 	#context = RequestContext(request)
-	category_list = Category.objects.order_by('-likes')[:5]
-
-	page_list = Page.objects.order_by('-views')[:5]
 	
 	meal_list = Meal.objects.order_by('meal_name')
 	
 	context_dict = {}
-	context_dict['categories'] = category_list
-	context_dict['pages'] = page_list
 	context_dict['meals'] = meal_list
 	
 	visitor_cookie_handler(request)
@@ -32,6 +30,195 @@ def index(request):
 
 	response = render(request, 'food_cloud/index.html', context=context_dict)
 	return response
+	
+def index_restaurant(request):
+	context_dict = {}
+	#context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+	#context_dict['categories'] = category_list
+	#context = RequestContext(request)
+	
+	meal_list = Meal.objects.order_by('meal_name')
+	
+	context_dict = {}
+	context_dict['meals'] = meal_list
+	
+	visitor_cookie_handler(request)
+	context_dict['visits'] = request.session['visits']
+
+	response = render(request, 'food_cloud/index_restaurant.html', context=context_dict)
+	return response
+	
+def register_choice(request):
+	context_dict = {}
+	response = render(request, 'food_cloud/register_choice.html', context=context_dict)
+	return response
+	
+def login_choice(request):
+	context_dict = {}
+	response = render(request, 'food_cloud/login_choice.html', context=context_dict)
+	return response
+	
+def register(request):
+	registered = False
+
+	if request.method == 'POST':
+		user_form = UserForm(request.POST)
+		profile_form = UserProfileForm(request.POST)
+
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+			profile = profile_form.save(commit=False)
+			profile.user = user
+			if 'picture' in request.FILES:
+				profile.picture = request.FILES['picture']
+				
+			profile.save()
+			registered = True
+		else:
+			print(user_form.errors, profile_form.errors)
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
+	return render(request, 'food_cloud/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+	
+def register_restaurant(request):
+	registered = False
+
+	if request.method == 'POST':
+		user_form = RestaurantForm(request.POST)
+		profile_form = RestaurantProfileForm(request.POST)
+
+		if user_form.is_valid() and profile_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+			profile = profile_form.save(commit=False)
+			profile.user = user
+			profile.save()
+			registered = True
+		else:
+			print(user_form.errors, profile_form.errors)
+	else:
+		user_form = RestaurantForm()
+		profile_form = RestaurantProfileForm()
+	return render(request, 'food_cloud/register_restaurant.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+	
+def user_login(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		user = authenticate(username=username, password=password)
+		if user:
+			if user.is_active:
+				login(request, user)
+				return redirect(reverse('food_cloud:index'))
+			else:
+				return HttpResponse("Your food_cloud account is disabled.")
+		else:
+			print(f"Invalid login details: {username}, {password}")
+			return HttpResponse("Invalid login details supplied.")
+	else:
+		return render(request, 'food_cloud/login.html')
+		
+def restaurant_login(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		user = authenticate(username=username, password=password)
+		if user:
+			if user.is_active:
+				login(request, user)
+				return redirect(reverse('food_cloud:index_restaurant'))
+			else:
+				return HttpResponse("Your food_cloud account is disabled.")
+		else:
+			print(f"Invalid login details: {username}, {password}")
+			return HttpResponse("Invalid login details supplied.")
+	else:
+		return render(request, 'food_cloud/login_restaurant.html')
+		
+@login_required
+def user_logout(request):
+	logout(request)
+	return redirect(reverse('food_cloud:index'))
+	
+class ProfileView(View):
+	def get_user_details(self, username):
+		try:
+			user = User.objects.get(username=username)
+		except User.DoesNotExist:
+			return None
+		user_profile = UserProfile.objects.get_or_create(user=user)[0]
+		form = UserProfileForm({'picture': user_profile.picture, 'isRestaurant': user_profile.isRestaurant})
+		return (user, user_profile, form)
+		
+	@method_decorator(login_required)
+	def get(self, request, username):
+		try:
+			(user, user_profile, form) = self.get_user_details(username)
+		except TypeError:
+			return redirect(reverse('food_cloud:index'))
+		context_dict = {'user_profile': user_profile,
+			'selected_user': user,
+			'form': form}
+		return render(request, 'food_cloud/profile.html', context_dict)
+		
+	@method_decorator(login_required)
+	def post(self, request, username):
+		try:
+			(user, user_profile, form) = self.get_user_details(username)
+		except TypeError:
+			return redirect(reverse('food_cloud:index'))
+		form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+		if form.is_valid():
+			form.save(commit=True)
+			return redirect('food_cloud:profile', user.username)
+		else:
+			print(form.errors)
+		context_dict = {'user_profile': user_profile,
+			'selected_user': user,
+			'form': form}
+		return render(request, 'food_cloud/profile.html', context_dict)
+		
+class ProfileView_restaurant(View):
+	def get_user_details(self, username):
+		try:
+			user = User.objects.get(username=username)
+		except User.DoesNotExist:
+			return None
+		user_profile = RestaurantProfile.objects.get_or_create(user=user)[0]
+		form = RestaurantProfileForm({'average_rating': user_profile.average_rating,'type': user_profile.type, 'isRestaurant': user_profile.isRestaurant})
+		return (user, user_profile, form)
+		
+	@method_decorator(login_required)
+	def get(self, request, username):
+		try:
+			(user, user_profile, form) = self.get_user_details(username)
+		except TypeError:
+			return redirect(reverse('food_cloud:index_restaurant'))
+		context_dict = {'user_profile': user_profile,
+			'selected_user': user,
+			'form': form}
+		return render(request, 'food_cloud/profile_restaurant.html', context_dict)
+		
+	@method_decorator(login_required)
+	def post(self, request, username):
+		try:
+			(user, user_profile, form) = self.get_user_details(username)
+		except TypeError:
+			return redirect(reverse('food_cloud:index_restaurant'))
+		form = RestaurantProfileForm(request.POST, request.FILES, instance=user_profile)
+		if form.is_valid():
+			form.save(commit=True)
+			return redirect('food_cloud:profile_restaurant', user.username)
+		else:
+			print(form.errors)
+		context_dict = {'user_profile': user_profile,
+			'selected_user': user,
+			'form': form}
+		return render(request, 'food_cloud/profile_restaurant.html', context_dict)
 
 def about(request):
 	context_dict = {}
@@ -86,6 +273,15 @@ def show_meal(request, meal_name_slug):
 	except Meal.DoesNotExist:
 		context_dict['meal'] = None
 	return render(request, 'food_cloud/meal.html', context=context_dict)
+	
+def show_restaurant(request, restaurant_name_slug):
+	context_dict = {}
+	try:
+		restaurant = Restaurant.objects.get(slug=restaurant_name_slug)
+		context_dict['restaurant'] = restaurant
+	except Restaurant.DoesNotExist:
+		context_dict['restaurant'] = None
+	return render(request, 'food_cloud/restaurant.html', context=context_dict)
 	
 def show_category(request, category_name_slug):
 	context_dict = {}

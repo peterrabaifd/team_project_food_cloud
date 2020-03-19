@@ -25,13 +25,14 @@
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">                
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index_restaurant' %}">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about' %}">About</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact' %}">Contact</a></li>
 						<li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search' %}">Search</a></li>
                         {% if user.is_authenticated %}
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:restricted' %}">Restricted</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:logout' %}?next=/food_cloud/">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_meal' %}">Add Meal</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:register_choice' %}">Register</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:login_choice' %}">Login</a></li>
@@ -39,7 +40,7 @@
                     </ul>
 					<ul class="nav navbar-nav navbar-right">
 						{% if user.is_authenticated %}
-							<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:profile' user.username %}">Account: {{ user.username }}</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:profile_restaurant' user.username %}">Account: {{ user.username }}</a></li>
 						{% endif %}
 					</ul>
                 </div>

@@ -5,10 +5,8 @@ import uuid
 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	email_address = models.EmailField()
 	picture = models.ImageField(upload_to='profile_images', blank=True)
-	isCompany = models.BooleanField(default=False)
-	restaurant_id = models.IntegerField(default=0)
+	isRestaurant = models.BooleanField(default = False)
 	def __str__(self):
 		return self.user.username
 		
@@ -39,11 +37,29 @@ class Meal(models.Model):
 	def __str__(self):
 		return self.meal_name
 
-class Restaurant(models.Model):
-	restaurant_id = models.IntegerField()
-	restaurant_name = models.CharField(max_length=30, unique=True)
+class RestaurantProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)	
+	#restaurant_id = models.IntegerField()
+	#restaurant_name = models.CharField(max_length=30, unique=True)
 	type = models.CharField(max_length=30, unique=False)
-	average_rating = models.IntegerField()
+	isRestaurant = models.BooleanField(default=True)
+	average_rating = models.IntegerField(default=0)
+	
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.user.username)
+		# while not self.restaurant_id:
+			# newid = ''.join([
+				# random.sample(string.letters, 2),
+				# random.sample(string.digits, 2),
+				# random.sample(string.letters, 2),
+			# ])
+
+			# if not self.objects.filter(pk=newid).exists():
+				# self.restaurant_id = newid
+		super(RestaurantProfile, self).save(*args, **kwargs)
+	
+	def __str__(self):
+		return self.user.username
 	
 class Order(models.Model):
 	user_id = models.IntegerField()

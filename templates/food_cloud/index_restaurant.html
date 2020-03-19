@@ -1,4 +1,4 @@
-{% extends 'food_cloud/base.html' %}
+{% extends 'food_cloud/base_restaurant.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -8,10 +8,11 @@
 {% block body_block %}
 		<div class="jumbotron p-2">
 			<div class="container">
+				<h1 class="jumbotron-heading">food_cloud says...</h1>
 				<div>
 					<h2 class="h2">
 					{% if user.is_authenticated %}
-					Logged in version of Homepage
+					Logged in version of Homepage for Restaurants
 					{% else %}
 					No logged in user, base version of Homepage
 					{% endif %}
@@ -52,7 +53,7 @@
 				<div class="col-md-4">
 					<div class="card mb-4">
 						<div class="card-body">
-							<h2>Favourites(WIP)</h2>
+							<h2>Meals(WIP)</h2>
 							<p class="card-text">
 							{% if meals %}
 							<ul class="list-group">
