@@ -1,7 +1,10 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 import uuid
+from statistics import mean
 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -15,11 +18,17 @@ class Meal(models.Model):
 	meal_name = models.CharField(max_length=30, unique=True)
 	description = models.CharField(max_length=200, unique=False)
 	price = models.IntegerField(default=0)
-	restaurant_id = models.IntegerField(default=0)
+	average_rating = models.FloatField(default=0)
+	restaurant_slug = models.CharField(max_length=30)
 	picture = models.ImageField(upload_to='profile_images', blank=True)
-	
+
+	def update_restaurant(self):
+		restaurant = RestaurantProfile.objects.get(slug = self.restaurant_slug)
+		restaurant.save()
+
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.meal_name)
+		self.average_rating = round(self.average_rating, 1)
 		while not self.meal_id:
 			newid = ''.join([
 				random.sample(string.letters, 2),
@@ -30,7 +39,8 @@ class Meal(models.Model):
 			if not self.objects.filter(pk=newid).exists():
 				self.meal_id = newid
 		super(Meal, self).save(*args, **kwargs)
-		
+		self.update_restaurant()	
+
 	class Meta:
 		verbose_name_plural = 'Meals'
 	
@@ -39,27 +49,32 @@ class Meal(models.Model):
 
 class RestaurantProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)	
-	#restaurant_id = models.IntegerField()
-	#restaurant_name = models.CharField(max_length=30, unique=True)
+	restaurant_name = models.CharField(max_length=30, unique=True)
 	type = models.CharField(max_length=30, unique=False)
 	isRestaurant = models.BooleanField(default=True)
-	average_rating = models.IntegerField(default=0)
+	average_rating = models.FloatField(default=0)
+	slug = models.SlugField(unique=True)
 	
-	def save(self, *args, **kwargs):
-		self.slug = slugify(self.user.username)
-		# while not self.restaurant_id:
-			# newid = ''.join([
-				# random.sample(string.letters, 2),
-				# random.sample(string.digits, 2),
-				# random.sample(string.letters, 2),
-			# ])
+	
+	def calculate_average_rating(self):
+		meals = Meal.objects.filter(restaurant_slug = self.slug)
+		if meals:
+			meal_ratings = list()
+			for meal in meals:
+				meal_ratings.append(meal.average_rating)
+			self.average_rating = round(mean(meal_ratings), 1)
+			print("Meals Exist")
+		else:
+			print("No Meals Present")
 
-			# if not self.objects.filter(pk=newid).exists():
-				# self.restaurant_id = newid
+	# @receiver(post_save, sender=Meal)
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.restaurant_name)
+		self.calculate_average_rating()
 		super(RestaurantProfile, self).save(*args, **kwargs)
 	
 	def __str__(self):
-		return self.user.username
+		return self.restaurant_name
 	
 class Order(models.Model):
 	user_id = models.IntegerField()
