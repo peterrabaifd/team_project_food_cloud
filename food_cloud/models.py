@@ -16,15 +16,11 @@ class UserProfile(models.Model):
 class Meal(models.Model):
 	meal_id = models.UUIDField(max_length=10, primary_key=True, default=uuid.uuid4, blank=True)
 	meal_name = models.CharField(max_length=30, unique=True)
-	description = models.CharField(max_length=200, unique=False)
+	description = models.CharField(max_length=200, unique=False, blank=True)
 	price = models.IntegerField(default=0)
 	average_rating = models.FloatField(default=0)
 	restaurant_slug = models.CharField(max_length=30)
 	picture = models.ImageField(upload_to='profile_images', blank=True)
-
-	def update_restaurant(self):
-		restaurant = RestaurantProfile.objects.get(slug = self.restaurant_slug)
-		restaurant.save()
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.meal_name)
@@ -39,7 +35,6 @@ class Meal(models.Model):
 			if not self.objects.filter(pk=newid).exists():
 				self.meal_id = newid
 		super(Meal, self).save(*args, **kwargs)
-		self.update_restaurant()	
 
 	class Meta:
 		verbose_name_plural = 'Meals'
@@ -55,7 +50,6 @@ class RestaurantProfile(models.Model):
 	average_rating = models.FloatField(default=0)
 	slug = models.SlugField(unique=True)
 	
-	
 	def calculate_average_rating(self):
 		meals = Meal.objects.filter(restaurant_slug = self.slug)
 		if meals:
@@ -67,7 +61,6 @@ class RestaurantProfile(models.Model):
 		else:
 			print("No Meals Present")
 
-	# @receiver(post_save, sender=Meal)
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.restaurant_name)
 		self.calculate_average_rating()
