@@ -5,7 +5,7 @@ from food_cloud.models import Meal, RestaurantProfile
 @receiver(signals.pre_save, sender=Meal)
 def check_product_description(sender, instance, **kwargs):
     if not instance.description:
-        instance.description = 'This is Default Description'
+        instance.description = 'No Description Has Been Added'
 
 @receiver(signals.post_save, sender=Meal)
 def update_restaurant(sender, instance, **kwargs):
