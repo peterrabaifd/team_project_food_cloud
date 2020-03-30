@@ -246,8 +246,10 @@ def my_account(request):
 	
 def add_meal(request):
 	form = MealForm()
+	restaurant = RestaurantProfile.objects.get_or_create(user=request.user)
+	restaurant_slug = restaurant[0].slug
 	if request.method == 'POST':
-		form = MealForm(request.POST)
+		form = MealForm(request.POST, restaurant_slug=restaurant_slug)
 		if form.is_valid():
 			form.save(commit=True)
 			return redirect('/food_cloud/')

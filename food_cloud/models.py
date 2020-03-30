@@ -17,13 +17,13 @@ class Meal(models.Model):
 	meal_id = models.UUIDField(max_length=10, primary_key=True, default=uuid.uuid4, blank=True)
 	meal_name = models.CharField(max_length=30, unique=True)
 	description = models.CharField(max_length=200, unique=False, blank=True)
-	price = models.IntegerField(default=0)
+	price = models.FloatField(default=0)
 	average_rating = models.FloatField(default=0)
 	restaurant_slug = models.CharField(max_length=30)
 	picture = models.ImageField(upload_to='profile_images', blank=True)
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(self.meal_name)
+		# self.slug = slugify(self.meal_name)
 		self.average_rating = round(self.average_rating, 1)
 		while not self.meal_id:
 			newid = ''.join([
@@ -55,11 +55,13 @@ class RestaurantProfile(models.Model):
 		if meals:
 			meal_ratings = list()
 			for meal in meals:
-				meal_ratings.append(meal.average_rating)
-			self.average_rating = round(mean(meal_ratings), 1)
+				if meal.average_rating > 0:
+					meal_ratings.append(meal.average_rating)
+					self.average_rating = round(mean(meal_ratings), 1)
 			print("Meals Exist")
 		else:
 			print("No Meals Present")
+			self.average_rating = 0
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.restaurant_name)

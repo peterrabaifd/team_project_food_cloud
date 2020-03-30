@@ -5,20 +5,29 @@ from food_cloud.models import *
 from django.contrib.auth.forms import UserCreationForm
 
 class MealForm(forms.ModelForm):
-	meal_id = forms.IntegerField(widget=forms.HiddenInput(), initial=0, required=False)
 	meal_name = forms.CharField(max_length=30, 
 	help_text="Please enter the meal name.")
 	description = forms.CharField(max_length=200,
-	help_text="Please enter the meal description.")
-	price = forms.IntegerField(help_text="Please enter the meal price.")
-	restaurant_id = forms.IntegerField(help_text="Please enter the restaurant id.")
+	help_text="Please enter the meal description.", required=False)
+	price = forms.FloatField(help_text="Please enter the meal price.", min_value=0.01)
 	picture = forms.ImageField(required=False,
 	help_text="Please upload a picture.")
-	slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+	restaurant_slug = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+	def __init__(self, *args, **kwargs):
+		self.restaurant_slug = kwargs.pop('restaurant_slug', None)
+		super(MealForm, self).__init__(*args, **kwargs)     
+
+	def save(self, commit=True):
+		obj = super(MealForm, self).save(commit=commit)
+		obj.restaurant_slug = self.restaurant_slug
+		if commit:
+			obj.save()
+		return obj
 	
 	class Meta:
 		model = Meal
-		fields = ('meal_name',)
+		exclude = ('average_rating','meal_id',)
 
 class CategoryForm(forms.ModelForm):
 	name = forms.CharField(max_length=128,
