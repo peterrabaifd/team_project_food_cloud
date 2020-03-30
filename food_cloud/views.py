@@ -222,10 +222,18 @@ class ProfileView_restaurant(View):
 
 def about(request):
 	context_dict = {}
-	context_dict['boldmessage'] = 'This project was put together by Peter Rabai'
+	context_dict['boldmessage'] = 'This project was put together by Krasimir Ivanov, Jude Campbell, Olalekan Akala and Peter Rabai'
 	visitor_cookie_handler(request)
 	context_dict['visits'] = request.session['visits']
 	response = render(request, 'food_cloud/about.html', context=context_dict)
+	return response
+	
+def about_restaurant(request):
+	context_dict = {}
+	context_dict['boldmessage'] = 'This project was put together by Krasimir Ivanov, Jude Campbell, Olalekan Akala and Peter Rabai'
+	visitor_cookie_handler(request)
+	context_dict['visits'] = request.session['visits']
+	response = render(request, 'food_cloud/about_restaurant.html', context=context_dict)
 	return response
 	
 def contact(request):
@@ -234,6 +242,14 @@ def contact(request):
 	visitor_cookie_handler(request)
 	context_dict['visits'] = request.session['visits']
 	response = render(request, 'food_cloud/contact.html', context=context_dict)
+	return response
+	
+def contact_restaurant(request):
+	context_dict = {}
+	context_dict['boldmessage'] = 'Contact us page(WIP)'
+	visitor_cookie_handler(request)
+	context_dict['visits'] = request.session['visits']
+	response = render(request, 'food_cloud/contact_restaurant.html', context=context_dict)
 	return response
 	
 def my_account(request):

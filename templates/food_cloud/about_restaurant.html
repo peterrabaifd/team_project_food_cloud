@@ -1,0 +1,27 @@
+{% extends 'food_cloud/base_restaurant.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	<!--Title block -->
+	About
+{% endblock %}
+
+{% block body_block %}
+	<!--Body block -->
+		<div class="jumbotron p-4">
+			<div class="container">
+				<h1 class="jumbotron-heading">About</h1>
+				<div>
+					<strong>{{ boldmessage }}</strong>
+				</div>
+			</div>
+		</div>
+		
+		<div>
+			<img src="{% static 'images/food_cloud.jpg' %}" alt="Picture of food_cloud" />
+			<img src="{{MEDIA_URL}}/cat.jpg" alt="Picture of Cat."/>
+		</div>
+		<div>
+		You have visited this page {{ visits }} times.
+		</div>
+{% endblock %}

@@ -26,8 +26,8 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index_restaurant' %}">Home</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about' %}">About</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact' %}">Contact</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about_restaurant' %}">About</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact_restaurant' %}">Contact</a></li>
 						<li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search' %}">Search</a></li>
                         {% if user.is_authenticated %}
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:restricted' %}">Restricted</a></li>
