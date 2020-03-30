@@ -20,10 +20,10 @@ def index(request):
 	#context_dict['categories'] = category_list
 	#context = RequestContext(request)
 	
-	meal_list = Meal.objects.order_by('meal_name')
+	popular_meal_list = Meal.objects.order_by('-orders')
 	
 	context_dict = {}
-	context_dict['meals'] = meal_list
+	context_dict['meals'] = popular_meal_list[:5]
 	
 	visitor_cookie_handler(request)
 	context_dict['visits'] = request.session['visits']

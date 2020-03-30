@@ -18,6 +18,7 @@ class Meal(models.Model):
 	meal_name = models.CharField(max_length=30, unique=True)
 	description = models.CharField(max_length=200, unique=False, blank=True)
 	price = models.FloatField(default=0)
+	orders = models.PositiveIntegerField(default = 0)
 	average_rating = models.FloatField(default=0)
 	restaurant_slug = models.CharField(max_length=30)
 	picture = models.ImageField(upload_to='profile_images', blank=True)
@@ -73,7 +74,8 @@ class RestaurantProfile(models.Model):
 	
 class Order(models.Model):
 	user_id = models.IntegerField()
-	meal_id = models.IntegerField()
+	meal_id = models.UUIDField()
+	amount = models.PositiveIntegerField()
 	date = models.DateTimeField()
 	
 class Favourite(models.Model):
@@ -85,7 +87,6 @@ class Rating(models.Model):
 	restaurant_id = models.IntegerField()
 	rating = models.IntegerField()
 	
-
 class Category(models.Model):
 	name = models.CharField(max_length=128, unique=True)
 	views = models.IntegerField(default=0)
