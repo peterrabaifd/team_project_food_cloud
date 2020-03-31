@@ -28,6 +28,7 @@ def index(request):
 
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
+    context_dict['orders'] = Order.objects.order_by('date')
 
     response = render(request, 'food_cloud/index.html', context=context_dict)
     return response
@@ -434,8 +435,6 @@ def visitor_cookie_handler(request):
 @login_required
 def add_order(request, meal_name_slug):
     meal = Meal.objects.get(slug=meal_name_slug)
-    print(request.user.email, flush=True)
-
     user = UserProfile.objects.get(user=request.user)
     order = Order.objects.create(
         meal=meal, customer=user, date=datetime.now())

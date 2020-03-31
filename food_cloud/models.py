@@ -19,15 +19,15 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         UserProfile.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.userprofile.save()
 
 
 class Meal(models.Model):
@@ -37,7 +37,7 @@ class Meal(models.Model):
     description = models.CharField(
         max_length=200, unique=False, blank=True)
     price = models.FloatField(default=0)
-    orders = models.PositiveIntegerField(default=0)
+    # orders = models.PositiveIntegerField(default=0)
     average_rating = models.FloatField(default=0)
     restaurant_slug = models.CharField(max_length=30)
     picture = models.ImageField(upload_to='profile_images', blank=True)
