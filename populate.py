@@ -8,14 +8,14 @@ from food_cloud.models import *
 
 def populate():
 
-	meals = {'Test_meal_1': {'description': "Test_meal_1 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 4, 'orders': 5}, 
-			'Test_meal_2': {'description': "Test_meal_2 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 4.9, 'orders': 10},
-			'Test_meal_3': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 3.5, 'orders': 2}}
+	meals = {'Test_meal_1': {'description': "Test_meal_1 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 4, 'num_orders': 5}, 
+			'Test_meal_2': {'description': "Test_meal_2 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 4.9, 'num_orders': 10},
+			'Test_meal_3': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 3.5, 'num_orders': 2}}
 
 	add_restaurant()
 
 	for meal, meal_data in meals.items():
-		c = add_meal(meal, meal_data['description'], meal_data['price'], meal_data['restaurant_slug'], meal_data['average_rating'], meal_data['orders'], meal_data['picture'])	
+		c = add_meal(meal, meal_data['description'], meal_data['price'], meal_data['restaurant_slug'], meal_data['average_rating'], meal_data['num_orders'], meal_data['picture'])	
 
 def add_restaurant():
 	r = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="Clucky's", type="Chicken")
@@ -29,10 +29,10 @@ def create_user():
 
 	return user
 
-def add_meal(meal_name, description, price, restaurant_slug, average_rating, orders, picture):
+def add_meal(meal_name, description, price, restaurant_slug, average_rating, num_orders, picture):
 	c = Meal.objects.get_or_create(meal_id=random.randrange(1000,10000,1), meal_name=meal_name, description=description, price=price, restaurant_slug=restaurant_slug, picture=picture)[0]
 	c.average_rating = average_rating
-	c.orders = orders
+	c.num_orders = num_orders
 	c.save()
 	return c
 			
