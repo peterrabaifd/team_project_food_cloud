@@ -24,5 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 	path('', views.about, name='about'),
 	path('food_cloud/', include('food_cloud.urls')),
-	path('accounts/', include('registration.backends.simple.urls')),
+	#path('accounts/', include('registration.backends.simple.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

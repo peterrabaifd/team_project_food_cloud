@@ -1,0 +1,19 @@
+{% extends 'food_cloud/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Login
+{% endblock %}
+
+{% block body_block %}
+		<div class="jumbotron p-4">
+			<div class="container">
+				<h1 class="jumbotron-heading">Choose how you would like to Log in</h1>
+			</div>
+		</div>
+		
+		<div>
+			<a href="{% url 'food_cloud:login' %}">Login as User</a><br />
+			<a href="{% url 'food_cloud:login_restaurant' %}">Login as Restaurant</a><br />
+		</div>
+{% endblock %}

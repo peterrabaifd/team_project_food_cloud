@@ -1,0 +1,29 @@
+{% extends 'food_cloud/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+
+	{% if restaurant %}
+		{{ restaurant.name }}
+	{% else %}
+		Unknown Restaurant
+	{% endif %}
+	
+{% endblock %}
+
+{% block body_block %}
+
+		<div class="jumbotron p-4">
+			<div class="container">
+				{% if restaurant %}
+					<h1>{{ restaurant.restaurant_name }}</h1>
+					<h1>{{ restaurant.description }}</h1>
+				{% else %}
+					The specified restaurant does not exist.
+				{% endif %}
+			</div>
+		</div>
+		
+		<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_meal' %}">Add Meal</a></li>
+
+{% endblock %}

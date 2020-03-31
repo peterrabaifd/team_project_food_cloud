@@ -1,0 +1,28 @@
+{% extends 'food_cloud/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Register as User
+{% endblock %}
+
+{% block body_block %}
+		<div class="jumbotron p-4">
+			<div class="container">
+				<h1 class="jumbotron-heading">Register as User</h1>
+			</div>
+		</div>
+		
+	{% if registered %}
+		food_cloud says: <strong>thank you for registering!</strong>
+		<a href="{% url 'food_cloud:index' %}">Return to the homepage.</a><br />
+	{% else %}
+	<form id="user_form" method="post" action="{% url 'food_cloud:register' %}"
+		enctype="multipart/form-data">
+		{% csrf_token %}
+		User Authentication 160
+		{{ user_form.as_p }}
+		{{ profile_form.as_p }}
+		<input type="submit" name="submit" value="Register" />
+	</form>
+	{% endif %}
+{% endblock %}

@@ -73,6 +73,12 @@
 			</div>
 			<input type="submit"/>
 		</form>
+		
+		{% comment %} <form method="post" action=".">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Register" />
+</form> {% endcomment %}
 		</div>
 	</div>
 	</div>

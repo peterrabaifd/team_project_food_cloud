@@ -1,4 +1,4 @@
-{% extends 'food_cloud/base.html' %}
+{% extends 'food_cloud/base_restaurant.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
@@ -8,10 +8,11 @@
 {% block body_block %}
 		<div class="jumbotron p-2">
 			<div class="container">
+				<h1 class="jumbotron-heading">food_cloud says...</h1>
 				<div>
 					<h2 class="h2">
 					{% if user.is_authenticated %}
-					Logged in version of Homepage
+					Logged in version of Homepage for Restaurants
 					{% else %}
 					No logged in user, base version of Homepage
 					{% endif %}
@@ -52,7 +53,7 @@
 				<div class="col-md-4">
 					<div class="card mb-4">
 						<div class="card-body">
-							<h2>Favourites(WIP)</h2>
+							<h2>Meals(WIP)</h2>
 							<p class="card-text">
 							{% if meals %}
 							<ul class="list-group">
@@ -61,7 +62,6 @@
 									<ul class="list-group">
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
-										<li class="list-group-item"><a href="{% url 'food_cloud:add_order' meal.slug %}">Order</a></li>
 									</ul>
 								</li>
 							{% endfor %}
@@ -73,32 +73,6 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="col-md-4">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h2>Orders(WIP)</h2>
-							<p class="card-text">
-							{% if orders %}
-							<ul class="list-group">
-							{% for order in orders %}
-								<li class="list-group-item">
-									<ul class="list-group">
-										<li class="list-group-item">{{ order.meal.meal_name }}</li>
-										<li class="list-group-item">{{ order.date }}</li>
-									</ul>
-								</li>
-							{% endfor %}
-							</ul>
-							{% else %}
-							<strong>There are no orders present.</strong>
-							{% endif %}
-							</p>
-						</div>
-					</div>
-				</div>
-
-				
 			</div>
 		</div>
 		{% else %}

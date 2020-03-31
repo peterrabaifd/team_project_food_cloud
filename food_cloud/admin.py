@@ -1,10 +1,13 @@
 from django.contrib import admin
-from food_cloud.models import Category, Page
-from food_cloud.models import UserProfile
+from food_cloud.models import *
 
-class CategoryAdmin(admin.ModelAdmin):
-	prepopulated_fields = {'slug':('name',)}
+class RestaurantAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'slug':('restaurant_name',)}
 
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Page)
+class MealAdmin(admin.ModelAdmin):
+	list_display = ('meal_name', 'restaurant_slug', 'orders')
+
+admin.site.register(Category)
+admin.site.register(Meal, MealAdmin)
 admin.site.register(UserProfile)
+admin.site.register(RestaurantProfile, RestaurantAdmin)
