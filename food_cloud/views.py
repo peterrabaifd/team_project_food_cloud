@@ -313,6 +313,16 @@ def search(request):
             result_list = run_query(query)
     print("DEBUG query=" + query)
     return render(request, 'food_cloud/search.html', {'result_list': result_list, 'query': query})
+	
+def search_restaurant(request):
+    result_list = []
+    query = ""
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            result_list = run_query(query)
+    print("DEBUG query=" + query)
+    return render(request, 'food_cloud/search_restaurant.html', {'result_list': result_list, 'query': query})
 
 
 def show_meal(request, meal_name_slug):

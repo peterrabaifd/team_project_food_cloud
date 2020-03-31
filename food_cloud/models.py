@@ -37,7 +37,7 @@ class Meal(models.Model):
     description = models.CharField(
         max_length=200, unique=False, blank=True)
     price = models.FloatField(default=0)
-    # orders = models.PositiveIntegerField(default=0)
+    num_orders = models.PositiveIntegerField(default=0)
     average_rating = models.FloatField(default=0)
     restaurant_slug = models.CharField(max_length=30)
     picture = models.ImageField(upload_to='profile_images', blank=True)
