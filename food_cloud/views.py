@@ -29,6 +29,8 @@ def index(request):
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
     context_dict['orders'] = Order.objects.order_by('date')
+    context_dict['restaurants'] = RestaurantProfile.objects.order_by(
+        'restaurant_name')
 
     response = render(request, 'food_cloud/index.html', context=context_dict)
     return response

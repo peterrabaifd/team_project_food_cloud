@@ -47,6 +47,33 @@
 				</div>
 				
 				<div class="col-md-4">
+					<div class="card mb-4">
+						<div class="card-body">
+							<h2>Featured Restaurants(WIP)</h2>
+							<p class="card-text">
+							{% if restaurants %}
+							<ul class="list-group">
+							{% for restaurant in restaurants %}
+							<div class="row">
+							<p class="col-4">{{ restaurant.restaurant_name }}</p>
+							<p class="col-4">{{ restaurant.type }}</p>
+							<a href="" class="col-4">Order from this restaurant</a>
+							</div>
+								{% comment %} <li class="list-group-item">
+									<ul class="list-group">
+										<li class="list-group-item">{{ restaurant.restaurant_name }}</li>
+										<li class="list-group-item">{{ restaurant.type }}</li>
+										<li class="list-group-item"><a href="">Order from this restaurant</a></li>
+									</ul>
+								</li> {% endcomment %}
+							{% endfor %}
+							</ul>
+							{% else %}
+							<strong>There are no restaurants present.</strong>
+							{% endif %}
+							</p>
+						</div>
+					</div>
 				</div>
 				
 				<div class="col-md-4">
