@@ -62,6 +62,7 @@
 									<ul class="list-group">
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
+										<li class="list-group-item"><a href="{% url 'food_cloud:add_order' meal.slug %}">Order</a></li>
 									</ul>
 								</li>
 							{% endfor %}
@@ -73,6 +74,32 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="col-md-4">
+					<div class="card mb-4">
+						<div class="card-body">
+							<h2>Orders(WIP)</h2>
+							<p class="card-text">
+							{% if orders %}
+							<ul class="list-group">
+							{% for order in orders %}
+								<li class="list-group-item">
+									<ul class="list-group">
+										<li class="list-group-item">{{ order.meal.meal_name }}</li>
+										<li class="list-group-item">{{ order.date }}</li>
+									</ul>
+								</li>
+							{% endfor %}
+							</ul>
+							{% else %}
+							<strong>There are no orders present.</strong>
+							{% endif %}
+							</p>
+						</div>
+					</div>
+				</div>
+
+				
 			</div>
 		</div>
 		{% else %}
