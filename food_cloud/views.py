@@ -313,7 +313,8 @@ def search(request):
             result_list = run_query(query)
     print("DEBUG query=" + query)
     return render(request, 'food_cloud/search.html', {'result_list': result_list, 'query': query})
-	
+
+
 def search_restaurant(request):
     result_list = []
     query = ""
@@ -338,10 +339,13 @@ def show_meal(request, meal_name_slug):
 def show_restaurant(request, restaurant_name_slug):
     context_dict = {}
     try:
-        restaurant = Restaurant.objects.get(slug=restaurant_name_slug)
+        restaurant = RestaurantProfile.objects.get(slug=restaurant_name_slug)
         context_dict['restaurant'] = restaurant
+        context_dict['meals'] = Meal.objects.filter(
+            restaurant_slug=restaurant_name_slug)
     except Restaurant.DoesNotExist:
         context_dict['restaurant'] = None
+        context_dict['meals'] = None
     return render(request, 'food_cloud/restaurant.html', context=context_dict)
 
 
