@@ -18,7 +18,36 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+class RestaurantProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    restaurant_name = models.CharField(max_length=30, unique=True)
+    type = models.CharField(max_length=30, unique=False)
+    isRestaurant = models.BooleanField(default=True)
+    average_rating = models.FloatField(default=0)
+    slug = models.SlugField(unique=True)
 
+    def calculate_average_rating(self):
+        meals = Meal.objects.filter(restaurant_slug=self.slug)
+        if meals:
+            meal_ratings = list()
+            for meal in meals:
+                if meal.average_rating > 0:
+                    meal_ratings.append(meal.average_rating)
+                    self.average_rating = round(mean(meal_ratings), 1)
+            print("Meals Exist")
+        else:
+            print("No Meals Present")
+            self.average_rating = 0
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.restaurant_name)
+        self.calculate_average_rating()
+        super(RestaurantProfile, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.restaurant_name
+
+		
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):
 #     if created:
@@ -78,36 +107,6 @@ class Order(models.Model):
     customer = models.ForeignKey('UserProfile', related_name='orders',
                                  on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField()
-
-
-class RestaurantProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    restaurant_name = models.CharField(max_length=30, unique=True)
-    type = models.CharField(max_length=30, unique=False)
-    isRestaurant = models.BooleanField(default=True)
-    average_rating = models.FloatField(default=0)
-    slug = models.SlugField(unique=True)
-
-    def calculate_average_rating(self):
-        meals = Meal.objects.filter(restaurant_slug=self.slug)
-        if meals:
-            meal_ratings = list()
-            for meal in meals:
-                if meal.average_rating > 0:
-                    meal_ratings.append(meal.average_rating)
-                    self.average_rating = round(mean(meal_ratings), 1)
-            print("Meals Exist")
-        else:
-            print("No Meals Present")
-            self.average_rating = 0
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.restaurant_name)
-        self.calculate_average_rating()
-        super(RestaurantProfile, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.restaurant_name
 
 
 class Favourite(models.Model):
