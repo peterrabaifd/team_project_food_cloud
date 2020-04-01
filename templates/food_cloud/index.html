@@ -48,7 +48,7 @@
 							<ul class="list-group">
 							{% for category in categories %}
 								<li class="list-group-item">
-								<a href="{% url 'food_cloud:show_category' category.slug %}">
+								<a href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">
 								{{ category.name }}</a>
 								</li>
 							{% endfor %}
@@ -70,8 +70,10 @@
 							<ul class="list-group">
 							{% for restaurant in restaurants %}
 							<div class="row">
-							<p class="col-4">{{ restaurant.restaurant_name }}</p>
-							<p class="col-4">{{ restaurant.type }}</p>
+							<h3>
+								<p>{{ restaurant.restaurant_name }}</p>
+								<p>{{ restaurant.type }}</p>
+							</h3>
 							<a href="" class="col-4">Order from this restaurant</a>
 							</div>
 							{% endfor %}
@@ -96,7 +98,7 @@
 									<ul class="list-group">
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
-										<li class="list-group-item"><a href="{% url 'food_cloud:add_order' meal.slug %}">Order</a></li>
+										<button class="order_button"><a class="order_link" href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
 									</ul>
 								</li>
 							{% endfor %}
@@ -121,6 +123,7 @@
 									<ul class="list-group">
 										<li class="list-group-item">{{ order.meal.meal_name }}</li>
 										<li class="list-group-item">{{ order.date }}</li>
+										<li class="list-group-item">{{ order.amount }}</li>
 									</ul>
 								</li>
 							{% endfor %}
@@ -171,4 +174,8 @@
 		<div>
 			<img src="{% static 'images/food_cloud.jpg' %}" alt="Picture of food_cloud" />
 		</div>
+		
+		{% block extrajs %}
+			<script src="{% static 'js/script.js' %}"></script>
+		{% endblock %}	
 {% endblock %}

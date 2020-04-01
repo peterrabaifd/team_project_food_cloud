@@ -70,19 +70,28 @@ class Meal(models.Model):
     average_rating = models.FloatField(default=0)
     restaurant_slug = models.CharField(max_length=30)
     picture = models.ImageField(upload_to='profile_images', blank=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=False)
     customers = models.ManyToManyField(
         'UserProfile', through='Order', related_name='ordered_meals')
 
+    def calculate_orders(self):
+        orders = Order.objects.filter(meal=self)
+        if orders:
+            order_amounts = list()
+            for order in orders:
+                order_amounts.append(order.amount)
+            self.num_orders = sum(order_amounts)
+            print("Orders Exist")
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.meal_name)
+        self.calculate_orders()
         while not self.meal_id:
             newid = ''.join([
                     random.sample(string.letters, 2),
                     random.sample(string.digits, 2),
                     random.sample(string.letters, 2),
             ])
-
             if not self.objects.filter(pk=newid).exists():
                 self.meal_id = newid
         super(Meal, self).save(*args, **kwargs)
@@ -103,10 +112,11 @@ class Restaurant(models.Model):
 
 class Order(models.Model):
     meal = models.ForeignKey(
-        'Meal', related_name='orders', on_delete=models.SET_NULL, null=True)
+        'Meal', related_name='orders', on_delete=models.CASCADE, null=True)
     customer = models.ForeignKey('UserProfile', related_name='orders',
                                  on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField()
+    amount = models.PositiveIntegerField(default=1)
 
 
 class Favourite(models.Model):

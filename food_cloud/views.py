@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from food_cloud.models import *
 from food_cloud.forms import *
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from food_cloud.forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -17,18 +17,11 @@ from django.utils.decorators import method_decorator
 
 def index(request):
     context_dict = {}
-    # context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    # context_dict['categories'] = category_list
-    # context = RequestContext(request)
 
-    popular_meal_list = Meal.objects.order_by('-orders')
-
-    context_dict = {}
+    popular_meal_list = Meal.objects.order_by('-num_orders')
     context_dict['meals'] = popular_meal_list[:5]
-
-    visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-    context_dict['orders'] = Order.objects.order_by('date')
+    context_dict['orders'] = Order.objects.order_by('-date')[:5]
     context_dict['restaurants'] = RestaurantProfile.objects.order_by(
         'restaurant_name')
 
@@ -377,68 +370,18 @@ def show_category(request, category_name_slug):
 
 
 @login_required
-def add_category(request):
-    form = CategoryForm()
-    # A HTTP POST?
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        # Have we been provided with a valid form?
-        if form.is_valid():
-            # Save the new category to the database.
-            form.save(commit=True)
-            # Now that the category is saved, we could confirm this.
-            # For now, just redirect the user back to the index view.
-            return redirect('/food_cloud/')
-        else:
-            # The supplied form contained errors -
-            # just print them to the terminal.
-            print(form.errors)
-    # Will handle the bad form, new form, or no form supplied cases.
-    # Render the form with error messages (if any).
-    return render(request, 'food_cloud/add_category.html', {'form': form})
-
-
-@login_required
-def add_page(request, category_name_slug):
-    try:
-        category = Category.objects.get(slug=category_name_slug)
-    except:
-        category = None
-
-    # You cannot add a page to a Category that does not exist... DM
-    if category is None:
-        return redirect('/food_cloud/')
-
-    form = PageForm()
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-
-        if form.is_valid():
-            if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
-
-                return redirect(reverse('food_cloud:show_category', kwargs={'category_name_slug': category_name_slug}))
-
-            else:
-                print(form.errors)
-
-    context_dict = {'form': form, 'category': category}
-    return render(request, 'food_cloud/add_page.html', context=context_dict)
-
-
-@login_required
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this text!")
 
 
 def get_server_side_cookie(request, cookie, default_val=None):
-    val = request.session.get(cookie)
-    if not val:
+    val = request.COOKIES.get(cookie)
+    print(val)
+    try:
+        int(val)
+    except (ValueError, TypeError):
         val = default_val
+        print(val + " here")
     return val
 
 
@@ -462,11 +405,23 @@ def visitor_cookie_handler(request):
     request.session['visits'] = visits
 
 
+def clear_amount_cookie(request):
+    request.COOKIES['amount'] = '0'
+    print("Done")
+
+
 @login_required
-def add_order(request, meal_name_slug):
-    meal = Meal.objects.get(slug=meal_name_slug)
-    user = UserProfile.objects.get(user=request.user)
-    order = Order.objects.create(
-        meal=meal, customer=user, date=datetime.now())
-    order.save()
-    return index(request)
+def add_order(request, meal_slug, meal_restaurant):
+    print("OK")
+    amount = get_server_side_cookie(request, 'amount', '1')
+    print(amount)
+    # clear_amount_cookie(request)
+    if amount is not None:
+        meal = Meal.objects.get(
+            slug=meal_slug, restaurant_slug=meal_restaurant)
+        user = UserProfile.objects.get(user=request.user)
+        order = Order.objects.create(
+            meal=meal, customer=user, amount=amount, date=datetime.now())
+        order.save()
+        # clear_amount_cookie(request)
+    return redirect('food_cloud:index')

@@ -6,7 +6,7 @@ class RestaurantAdmin(admin.ModelAdmin):
 
 class MealAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug':('meal_name',)}
-	list_display = ('meal_name', 'restaurant_slug', 'orders')
+	list_display = ('meal_name', 'restaurant_slug', 'num_orders')
 
 admin.site.register(Category)
 admin.site.register(Meal, MealAdmin)
