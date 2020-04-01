@@ -23,6 +23,21 @@
 		
 		{% if user.is_authenticated %}
 		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<form class="form-inline" id="user-form" method="POST" action="{% url 'food_cloud:search_restaurants' %}">
+				{% csrf_token %}
+
+				<div class="form-group">
+					<input class="form-control" type="text" size="50" name="query" id="query" value="{{ query }}"/>
+				</div>
+
+				<button class="btn btn-primary" type="submit" name="submit">Search</button>
+				</form>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-md-4">
 					<div class="card mb-4">

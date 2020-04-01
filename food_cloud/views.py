@@ -326,6 +326,20 @@ def search_restaurant(request):
     return render(request, 'food_cloud/search_restaurant.html', {'result_list': result_list, 'query': query})
 
 
+def search_restaurants(request):
+    result_list = None
+    query = ""
+    if request.method == 'POST':
+        query = request.POST['query']
+        if query:
+            result_list = RestaurantProfile.objects.filter(
+                restaurant_name__contains=query)
+
+            print(result_list)
+    print("DEBUG query=" + query)
+    return render(request, 'food_cloud/search_restaurants.html', {'result_list': result_list, 'query': query})
+
+
 def show_meal(request, meal_name_slug):
     context_dict = {}
     try:

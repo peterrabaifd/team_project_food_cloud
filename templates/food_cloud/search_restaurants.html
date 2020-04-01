@@ -1,0 +1,37 @@
+	{% extends 'food_cloud/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Search results
+{% endblock %}
+
+{% block body_block %}
+ <div class="row">
+				<div class="col-md-8 offset-md-2">
+					<form class="form-inline" id="user-form" method="POST" action="{% url 'food_cloud:search_restaurants' %}">
+				{% csrf_token %}
+
+				<div class="form-group">
+					<input class="form-control" type="text" size="50" name="query" id="query" value="{{ query }}"/>
+				</div>
+
+				<button class="btn btn-primary" type="submit" name="submit">Search</button>
+				</form>
+				</div>
+			</div>
+    <div> 
+    {% if result_list %}
+			<h2>Results</h2>
+
+			<div class="list-group">
+				{% for result in result_list %}
+					<div class="list-group-item">
+						<h3 class="list-group-item-heading">
+							<h1>{{ result.restaurant_name }}</h1>
+						</h3>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %} 
+	</div> 
+{% endblock %}
