@@ -15,7 +15,10 @@ def populate():
 	add_restaurant()
 
 	for meal, meal_data in meals.items():
-		c = add_meal(meal, meal_data['description'], meal_data['price'], meal_data['restaurant_slug'], meal_data['average_rating'], meal_data['num_orders'], meal_data['picture'])	
+		try:
+			c = add_meal(meal, meal_data['description'], meal_data['price'], meal_data['restaurant_slug'], meal_data['average_rating'], meal_data['num_orders'], meal_data['picture'])
+		except:
+			print("Meal already exists")
 
 def add_restaurant():
 	r = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="Clucky's", type="Chicken")
