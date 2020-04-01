@@ -26,4 +26,30 @@
 		
 		<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_meal' %}">Add Meal</a></li>
 
+		<div class="col-md-6 offset-md-3">
+					<div class="card mb-4">
+						<div class="card-body">
+							<h2>Featured Meals</h2>
+							<p class="card-text">
+							{% if meals %}
+							<ul class="list-group">
+							{% for meal in meals %}
+							<div class="row">
+							    <p class="col-4">{{ meal.meal_name }}</p>
+							    <p class="col-4">{{ meal.price }}</p>
+							    <a href="" class="col-4">Order</a>
+						    </div>
+							<div class="row">
+								<p class="col-12">{{ meal.description }}</p>
+							</div>
+							{% endfor %}
+							</ul>
+							{% else %}
+							<strong>There are no meals present.</strong>
+							{% endif %}
+							</p>
+						</div>
+					</div>
+				</div>
+
 {% endblock %}
