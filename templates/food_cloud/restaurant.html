@@ -35,7 +35,10 @@
 								<p class="col-8"><img src={{ meal.picture }}/></p>
 							    <p class="col-8">{{ meal.meal_name }}</p>
 							    <p class="col-8">£{{ meal.price }}</p>
-							    <a href="" class="col-3">Order</a>
+							    {% if user.is_authenticated %}
+									<button class="order_button"><a class="order_link"
+										href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
+								{% endif %}
 								<a href="{% url 'food_cloud:add_favourite' meal.slug %}" class="col-3">Favourite</a>
 								
 						    </div>
@@ -48,7 +51,10 @@
 								<p class="col-8"><img src={{ meal.meal.picture }}/></p>
 							    <p class="col-8">{{ meal.meal.meal_name }}</p>
 							    <p class="col-8">£{{ meal.meal.price }}</p>
-							    <a href="" class="col-3">Order</a>
+							    {% if user.is_authenticated %}
+									<button class="order_button"><a class="order_link"
+										href="{% url 'food_cloud:add_order' meal.meal.slug meal.meal.restaurant_slug %}">Order</a></button>
+								{% endif %}
 								<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}" class="col-3">Unfavourite</a>	
 						    </div>
 							<div class="row">
