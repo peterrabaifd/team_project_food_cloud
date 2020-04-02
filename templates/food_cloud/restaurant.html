@@ -3,61 +3,67 @@
 
 {% block title_block %}
 
-	{% if restaurant %}
-		{{ restaurant.name }}
-	{% else %}
-		Unknown Restaurant
-	{% endif %}
-	
+{% if restaurant %}
+{{ restaurant.name }}
+{% else %}
+Unknown Restaurant
+{% endif %}
+
 {% endblock %}
 
 {% block body_block %}
 
-		<div class="jumbotron p-4">
-			<div class="container">
-				{% if restaurant %}
-					<h1>{{ restaurant.restaurant_name }}</h1>
-					<h1>{{ restaurant.description }}</h1>
-				{% else %}
-					The specified restaurant does not exist.
-				{% endif %}
-			</div>
-		</div>
+<div class="jumbotron p-4">
+	<div class="container">
+		{% if restaurant %}
+		<h1>{{ restaurant.restaurant_name }}</h1>
+		<h1>{{ restaurant.description }}</h1>
+		{% else %}
+		The specified restaurant does not exist.
+		{% endif %}
+	</div>
+</div>
 
-		<div class="col-md-8 offset-md-3">
-					<div class="card mb-8">
-						<div class="card-body">
-							<h2>Featured Meals</h2>
-							<p class="card-text">
-							<ul class="list-group">
-							{% for meal in not_favourites %}
-							<div class="row">
-								<p class="col-8"><img src={{ meal.picture }}/></p>
-							    <p class="col-8">{{ meal.meal_name }}</p>
-							    <p class="col-8">{{ meal.price }}</p>
-							    <a href="" class="col-3">Order</a>
-								<a href="{% url 'food_cloud:add_favourite' meal.slug %}" class="col-3">Favourite</a>
-								
-						    </div>
-							<div class="row">
-								<p class="col-12">{{ meal.description }}</p>
-							</div>
-							{% endfor %}
-							{% for meal in favourites %}
-							<div class="row">
-							    <p class="col-8">{{ meal.meal.meal_name }}</p>
-							    <p class="col-8">{{ meal.meal.price }}</p>
-							    <a href="" class="col-3">Order</a>
-								<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}" class="col-3">Unfavourite</a>	
-						    </div>
-							<div class="row">
-								<p class="col-12">{{ meal.meal.description }}</p>
-							</div>
-							{% endfor %}
-							</ul>
-							</p>
-						</div>
+<div class="col-md-8 offset-md-3">
+	<div class="card mb-8">
+		<div class="card-body">
+			<h2>Featured Meals</h2>
+			<p class="card-text">
+				<ul class="list-group">
+					{% for meal in not_favourites %}
+					<div class="row">
+						<p class="col-8"><img src={{ meal.picture }} /></p>
+						<p class="col-8">{{ meal.meal_name }}</p>
+						<p class="col-8">{{ meal.price }}</p>
+						<a href="" onclick="return false;"
+								class="col-3"><span class="order_button"
+									href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></a>
+						<a href="{% url 'food_cloud:add_favourite' meal.slug %}"
+							class="col-3">Favourite</a>
 					</div>
-				</div>
+					<div class="row">
+						<p class="col-12">{{ meal.description }}</p>
+					</div>
+					{% endfor %}
+					{% for meal in favourites %}
+					<div class="row">
+						<p class="col-8">{{ meal.meal.meal_name }}</p>
+						<p class="col-8">{{ meal.meal.price }}</p>
+						<a href="" class="col-3">Order</a>
+						<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}"
+							class="col-3">Unfavourite</a>
+					</div>
+					<div class="row">
+						<p class="col-12">{{ meal.meal.description }}</p>
+					</div>
+					{% endfor %}
+				</ul>
+			</p>
+		</div>
+	</div>
+</div>
 
+{% block extrajs %}
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
 {% endblock %}
