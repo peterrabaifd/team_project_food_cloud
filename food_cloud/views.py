@@ -20,7 +20,7 @@ def index(request):
 
     popular_meal_list = Meal.objects.order_by('-num_orders')
     context_dict['meals'] = popular_meal_list[:5]
-    context_dict['visits'] = request.session['visits']
+   #context_dict['visits'] = request.session['visits']
     context_dict['orders'] = Order.objects.order_by('-date')[:5]
     context_dict['restaurants'] = RestaurantProfile.objects.order_by(
         'restaurant_name')
@@ -452,4 +452,4 @@ def remove_favourite(request, meal_name_slug):
     meal = Meal.objects.get(slug=meal_name_slug)
     instance = Favourite.objects.filter(meal__slug=meal_name_slug)
     instance.delete()
-    return show_restaurant(request, meal.restaurant_slug)
+    return redirect('food_cloud:show_restaurant', meal.restaurant_slug)

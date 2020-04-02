@@ -50,7 +50,7 @@
 								<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}" class="col-3">Unfavourite</a>	
 						    </div>
 							<div class="row">
-								<p class="col-12">{{ meal.description }}</p>
+								<p class="col-12">{{ meal.meal.description }}</p>
 							</div>
 							{% endfor %}
 							</ul>
