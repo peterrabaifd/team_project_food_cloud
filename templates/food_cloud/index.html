@@ -36,69 +36,65 @@ Homepage
 		</div>
 	</div>
 
-	<div class="col-md-4">
-		<div class="card mb-4">
-			<div class="card-body">
-				<h2>Featured Restaurants(WIP)</h2>
-				<hr />
-				<p class="card-text">
-					{% if restaurants %}
-					<ul class="list-group">
-						{% for restaurant in restaurants %}
-						<div>
-							<p><span>
-									<h3>{{ restaurant.restaurant_name }}</h3>
-									<h5>{{ restaurant.type }}</h5>
-								</span></p>
-							<!-- <h3>
-								<p>{{ restaurant.restaurant_name }}</p>
-								<p>{{ restaurant.type }}</p>
-							</h3> -->
-							<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
-								class="col-4">Order from this restaurant</a>
-						</div>
-						{% endfor %}
-					</ul>
-					{% else %}
-					<strong>There are no restaurants present.</strong>
-					{% endif %}
-				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-4">
-		<div class="card mb-4">
-			<div class="card-body">
-				<h2>Popular Meals</h2>
-				<p class="card-text">
-					{% if meals %}
-					<ul class="list-group">
-						{% for meal in meals %}
-						<li class="list-group-item">
-							<ul class="list-group">
-								<img src={{ meal.picture }} />
-								<li class="list-group-item">{{ meal.meal_name }}</li>
-								<li class="list-group-item">{{ meal.description }}</li>
-								{% if user.is_authenticated %}
-								<button class="order_button"><span class="order_link"
-										href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></button>
-								{% endif %}
-							</ul>
-						</li>
-						{% endfor %}
-					</ul>
-					{% else %}
-					<strong>There are no meals present.</strong>
-					{% endif %}
-				</p>
-			</div>
-		</div>
-	</div>
-	{% if user.is_authenticated %}
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="card mb-4">
+				<div class="card-body">
+					<h2>Featured Restaurants(WIP)</h2>
+					<p class="card-text">
+						{% if restaurants %}
+						<ul class="list-group">
+							{% for restaurant in restaurants %}
+							<div class="row">
+								<h3>
+									<p>{{ restaurant.restaurant_name }}</p>
+									<p>{{ restaurant.type }}</p>
+								</h3>
+								<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
+								class="col-4">Order from this restaurant</a>
+							</div>
+							{% endfor %}
+						</ul>
+						{% else %}
+						<strong>There are no restaurants present.</strong>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card">
+				<div class="card-body">
+					<h2>Popular Meals</h2>
+					<p class="card-text">
+						{% if meals %}
+						<ul class="list-group">
+							{% for meal in meals %}
+							<li class="list-group-item">
+								<ul class="list-group">
+									<img src={{ meal.picture }}/>
+									<li class="list-group-item">{{ meal.meal_name }}</li>
+									<li class="list-group-item">{{ meal.description }}</li>
+									{% if user.is_authenticated %}
+									<button class="order_button"><a class="order_link"
+										href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
+									{% endif %}
+								</ul>
+							</li>
+							{% endfor %}
+						</ul>
+						{% else %}
+						<strong>There are no meals present.</strong>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		{% if user.is_authenticated %}
+		<div class="col-md-6">
+			<div class="card">
 				<div class="card-body">
 					<h2>Favorite Meals</h2>
 					<p class="card-text">
@@ -106,7 +102,9 @@ Homepage
 						<ul class="list-group">
 							{% for favorite in favorites %}
 							<li class="list-group-item">
-								{{favorite.meal}}
+								<a
+									href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">
+									{{ category.name }}</a>
 							</li>
 							{% endfor %}
 						</ul>
@@ -118,10 +116,10 @@ Homepage
 			</div>
 		</div>
 
-		<div class="col-md-4">
-			<div class="card mb-4">
+		<div class="col-md-6">
+			<div class="card">
 				<div class="card-body">
-					<h2>Recent Orders</h2>
+					<h2>Orders(WIP)</h2>
 					<p class="card-text">
 						{% if orders %}
 						<ul class="list-group">
@@ -132,11 +130,8 @@ Homepage
 									<li class="list-group-item">{{ order.date }}</li>
 									<li class="list-group-item">{{ order.amount }}</li>
 									<li class="list-group-item">
-										<span>
-											<p>Current Rating: {{ order.meal.average_rating }}</p>
-											<button class="rating"
-												href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">Rate</button>
-										</span>
+										<span class="rating"
+											href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">{{ order.meal.average_rating }}</span>
 									</li>
 								</ul>
 							</li>
