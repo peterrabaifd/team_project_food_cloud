@@ -136,6 +136,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR, MEDIA_DIR, ]
 MEDIA_ROOT = MEDIA_DIR
-STATIC_ROOT = '/home/pkovacs92/team_project_food_cloud/static'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
 LOGIN_URL = 'food_cloud:login'
