@@ -11,9 +11,9 @@ Homepage
 		<div>
 			<h2 class="h2">
 				{% if user.is_authenticated %}
-				Logged in version of Homepage
+				Welcome back to Food Cloud
 				{% else %}
-				No logged in user, base version of Homepage
+				Welcome to Food Cloud - Home for all Foodies
 				{% endif %}
 			</h2>
 			<strong>{{ boldmessage }}</strong>
@@ -40,17 +40,23 @@ Homepage
 		<div class="col-md-6">
 			<div class="card mb-4">
 				<div class="card-body">
-					<h2>Featured Restaurants(WIP)</h2>
+					<h2 style="text-align: center;">Featured Restaurants</h2>
 					<p class="card-text">
 						{% if restaurants %}
 						<ul class="list-group">
 							{% for restaurant in restaurants %}
+							<li class="list-group-item">
 							<div class="row">
-								<h4>{{ restaurant.restaurant_name }}</h4>
-								<h5>{{ restaurant.type }}</h5>
-								<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
-									class="col-4">Order from this restaurant</a>
+								<div class="column">
+									<h4>{{ restaurant.restaurant_name }}</h4>
+									<h5>{{ restaurant.type }}</h5>
+								</div>
+								<div class="column">
+									<h6 style="text-align: center;"><a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
+										class="col-4">Order from this restaurant</a></h6>
+								</div>
 							</div>
+							</li>
 							{% endfor %}
 						</ul>
 						{% else %}
@@ -63,7 +69,7 @@ Homepage
 		<div class="col-md-6">
 			<div class="card">
 				<div class="card-body">
-					<h2>Popular Meals</h2>
+					<h2 style="text-align: center;">Popular Meals</h2>
 					<p class="card-text">
 						{% if meals %}
 						<ul class="list-group">
@@ -96,7 +102,7 @@ Homepage
 		<div class="col-md-6">
 			<div class="card">
 				<div class="card-body">
-					<h2>Favorite Meals</h2>
+					<h2 style="text-align: center;">Favorite Meals</h2>
 					<p class="card-text">
 						{% if favorites %}
 						<ul class="list-group">
@@ -105,6 +111,7 @@ Homepage
 								<div class="column"><img src={{ favorite.meal.picture }} /></div>
 								<div class="column">
 									<h4>{{ favorite.meal.meal_name }}</h4>
+									<h5>${{ favorite.meal.price }}</h5>
 									<p><a href="" onclick="return false;" class="col-3">
 											<span class="order_button"
 												href="{% url 'food_cloud:add_order' favorite.meal.slug favorite.meal.restaurant_slug %}">Order</span>
@@ -113,7 +120,7 @@ Homepage
 								</div>
 							</li>
 
-							
+
 							{% endfor %}
 						</ul>
 						{% else %}
@@ -127,7 +134,7 @@ Homepage
 		<div class="col-md-6">
 			<div class="card">
 				<div class="card-body">
-					<h2>Orders(WIP)</h2>
+					<h2 style="text-align: center;">Past Orders</h2>
 					<p class="card-text">
 						{% if orders %}
 						<ul class="list-group">
