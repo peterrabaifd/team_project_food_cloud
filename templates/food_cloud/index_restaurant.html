@@ -30,17 +30,20 @@
 						<div class="card-body">
 							<h2>Meals for logged in(WIP)</h2>
 							<p class="card-text">
-							{% if categories %}
+							{% if meals %}
 							<ul class="list-group">
-							{% for category in categories %}
+							{% for meal in meals %}
 								<li class="list-group-item">
-								<a href="{% url 'food_cloud:show_category' category.slug %}">
-								{{ category.name }}</a>
+									<ul class="list-group">
+										<img src={{ meal.picture }}/>
+										<li class="list-group-item">{{ meal.meal_name }}</li>
+										<li class="list-group-item">{{ meal.description }}</li>
+									</ul>
 								</li>
 							{% endfor %}
 							</ul>
 							{% else %}
-							<strong>There are no categories present.</strong>
+							<strong>There are no meals present.</strong>
 							{% endif %}
 							</p>
 						</div>
@@ -60,6 +63,7 @@
 							{% for meal in meals %}
 								<li class="list-group-item">
 									<ul class="list-group">
+										<img src={{ meal.picture }}/>
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
 									</ul>
@@ -88,6 +92,7 @@
 							{% for meal in meals %}
 								<li class="list-group-item">
 									<ul class="list-group">
+										<img src={{ meal.picture }}/>
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
 									</ul>
