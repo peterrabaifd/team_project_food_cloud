@@ -29,7 +29,7 @@ def populate():
 			'Standard Hotdog': {'description': "Great party food for watching your favourite team with friends!", 'price': 10, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/standard_hotdog.jpg", 'average_rating': 3.5, 'num_orders': 2},
 			'Trex Burger': {'description': "For when you just want to utterly destroy your own health!", 'price': 5, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/trex_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2}}
 
-	# add_restaurant()
+	add_restaurant()
 
 	for meal, meal_data in meals.items():
 		try:
