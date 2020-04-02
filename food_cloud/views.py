@@ -16,14 +16,11 @@ from django.utils.decorators import method_decorator
 
 
 def index(request):
-    context_dict = {}
-
-    popular_meal_list = Meal.objects.order_by('-num_orders')
-    context_dict['meals'] = popular_meal_list[:5]
-   #context_dict['visits'] = request.session['visits']
-    context_dict['orders'] = Order.objects.order_by('-date')[:5]
+    context_dict = get_context_dict(request)
     context_dict['restaurants'] = RestaurantProfile.objects.order_by(
         'restaurant_name')
+    context_dict['meals'] = Meal.objects.order_by(
+        '-num_orders', '-average_rating')[:5]
 
     response = render(request, 'food_cloud/index.html', context=context_dict)
     return response
@@ -366,19 +363,6 @@ def show_restaurant(request, restaurant_name_slug):
     return render(request, 'food_cloud/restaurant.html', context=context_dict)
 
 
-def show_category(request, category_name_slug):
-    context_dict = {}
-    try:
-        category = Category.objects.get(slug=category_name_slug)
-        pages = Page.objects.filter(category=category)
-        context_dict['pages'] = pages
-        context_dict['category'] = category
-    except Category.DoesNotExist:
-        context_dict['category'] = None
-        context_dict['pages'] = None
-    return render(request, 'food_cloud/category.html', context=context_dict)
-
-
 @login_required
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this text!")
@@ -415,36 +399,20 @@ def visitor_cookie_handler(request):
     request.session['visits'] = visits
 
 
-def clear_amount_cookie(request):
-    request.COOKIES['amount'] = '0'
-    print("Done")
-
-
 @login_required
 def add_order(request, meal_slug, meal_restaurant):
-    # print("OK")
-    # amount = get_server_side_cookie(request, 'amount', '1')
-    # print(amount)
-    # # clear_amount_cookie(request)
-    # if amount is not None:
-    #     meal = Meal.objects.get(
-    #         slug=meal_slug, restaurant_slug=meal_restaurant)
-    #     user = UserProfile.objects.get(user=request.user)
-    #     order = Order.objects.create(
-    #         meal=meal, customer=user, amount=amount, date=datetime.now())
-    #     order.save()
-    #     # clear_amount_cookie(request)
-	amount = request.GET.get('amount', None)
-	print(amount)
-	if amount is not None:
-		meal = Meal.objects.get(slug=meal_slug, restaurant_slug=meal_restaurant)
-		user = UserProfile.objects.get(user=request.user)
-		order = Order.objects.create(
+    amount = request.GET.get('amount', None)
+    print(amount)
+    if amount is not None:
+        meal = Meal.objects.get(
+            slug=meal_slug, restaurant_slug=meal_restaurant)
+        user = UserProfile.objects.get(user=request.user)
+        order = Order.objects.create(
             meal=meal, customer=user, amount=amount, date=datetime.now())
-		data = {'success': True}
-	else:
-		data = {'success': False}
-	return JsonResponse(data)
+        data = {'success': True}
+    else:
+        data = {'success': False}
+    return JsonResponse(data)
 
 
 @login_required
@@ -467,17 +435,38 @@ def remove_favourite(request, meal_name_slug):
 
 @login_required
 def rate_meal(request, meal_slug, meal_restaurant):
-	rating_value = request.GET.get('rating', None)
-	print(rating_value)
-	if rating_value is not None:
-		meal = Meal.objects.get(slug=meal_slug, restaurant_slug=meal_restaurant)
-		user = UserProfile.objects.get(user=request.user)
-		rating, created = Rating.objects.get_or_create(meal=meal, customer=user)
-		if not created:
-			print("here")
-			rating.rating = rating_value
-			rating.save()
-		data = {'success': True}
-	else:
-		data = {'success': False}
-	return JsonResponse(data)
+    rating_value = request.GET.get('rating', None)
+    print(rating_value)
+    data = {}
+    if rating_value is not None:
+        try:
+            rating_value = int(rating_value)
+            meal = Meal.objects.get(
+                slug=meal_slug, restaurant_slug=meal_restaurant)
+            user = UserProfile.objects.get(user=request.user)
+            rating, created = Rating.objects.get_or_create(
+                meal=meal, customer=user)
+            rating.rating = rating_value
+            rating.save()
+            data = {'success': True}
+        except ValueError:
+            data = {'success': False, 'error': 'Enter Integer'}
+    else:
+        data = {'success': False}
+    return JsonResponse(data)
+
+
+def get_context_dict(request):
+    context_dict = {}
+    if request.user.is_authenticated:
+        try:
+            user = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            user = None
+        if user is not None:
+            context_dict['orders'] = Order.objects.filter(
+                customer=UserProfile.objects.get(user=request.user)).order_by('-date')[:5]
+            context_dict['favorites'] = Favourite.objects.filter(
+                customer=UserProfile.objects.get(user=request.user))[:5]
+
+    return context_dict
