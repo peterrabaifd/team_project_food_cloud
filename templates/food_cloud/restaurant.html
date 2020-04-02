@@ -45,6 +45,7 @@
 							{% endfor %}
 							{% for meal in favourites %}
 							<div class="row">
+								<p class="col-8"><img src={{ meal.meal.picture }}/></p>
 							    <p class="col-8">{{ meal.meal.meal_name }}</p>
 							    <p class="col-8">{{ meal.meal.price }}</p>
 							    <a href="" class="col-3">Order</a>

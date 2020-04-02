@@ -28,6 +28,9 @@
 					<div class="list-group-item">
 						<h3 class="list-group-item-heading">
 							<h1>{{ result.restaurant_name }}</h1>
+
+							<a href="{% url 'food_cloud:show_restaurant' result.slug %}"
+								class="col-4">Order from this restaurant</a>
 						</h3>
 					</div>
 				{% endfor %}
