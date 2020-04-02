@@ -31,22 +31,31 @@
 						<div class="card-body">
 							<h2>Featured Meals</h2>
 							<p class="card-text">
-							{% if meals %}
 							<ul class="list-group">
-							{% for meal in meals %}
+							{% for meal in not_favourites %}
 							<div class="row">
-							    <p class="col-4">{{ meal.meal_name }}</p>
-							    <p class="col-4">{{ meal.price }}</p>
-							    <a href="" class="col-4">Order</a>
+							    <p class="col-3">{{ meal.meal_name }}</p>
+							    <p class="col-3">{{ meal.price }}</p>
+							    <a href="" class="col-3">Order</a>
+								<a href="{% url 'food_cloud:add_favourite' meal.slug %}" class="col-3">Favourite</a>
+								
+						    </div>
+							<div class="row">
+								<p class="col-12">{{ meal.description }}</p>
+							</div>
+							{% endfor %}
+							{% for meal in favourites %}
+							<div class="row">
+							    <p class="col-3">{{ meal.meal.meal_name }}</p>
+							    <p class="col-3">{{ meal.meal.price }}</p>
+							    <a href="" class="col-3">Order</a>
+								<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}" class="col-3">Unfavourite</a>	
 						    </div>
 							<div class="row">
 								<p class="col-12">{{ meal.description }}</p>
 							</div>
 							{% endfor %}
 							</ul>
-							{% else %}
-							<strong>There are no meals present.</strong>
-							{% endif %}
 							</p>
 						</div>
 					</div>

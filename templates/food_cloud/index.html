@@ -72,7 +72,7 @@
 							<div class="row">
 							<p class="col-4">{{ restaurant.restaurant_name }}</p>
 							<p class="col-4">{{ restaurant.type }}</p>
-							<a href="" class="col-4">Order from this restaurant</a>
+							<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}" class="col-4">Order from this restaurant</a>
 							</div>
 							{% endfor %}
 							</ul>

@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class RestaurantProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     restaurant_name = models.CharField(max_length=30, unique=True)
@@ -47,7 +48,7 @@ class RestaurantProfile(models.Model):
     def __str__(self):
         return self.restaurant_name
 
-		
+
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):
 #     if created:
@@ -73,6 +74,8 @@ class Meal(models.Model):
     slug = models.SlugField(unique=True)
     customers = models.ManyToManyField(
         'UserProfile', through='Order', related_name='ordered_meals')
+    customer_favourites = models.ManyToManyField(
+        'UserProfile', through='Favourite', related_name='favourite_meals')
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.meal_name)
@@ -110,8 +113,10 @@ class Order(models.Model):
 
 
 class Favourite(models.Model):
-    user_id = models.IntegerField()
-    meal_id = models.IntegerField()
+    meal = models.ForeignKey(
+        'Meal', related_name='favourites', on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey('UserProfile', related_name='favourites',
+                                 on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class Rating(models.Model):

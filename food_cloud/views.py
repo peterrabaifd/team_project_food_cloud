@@ -355,11 +355,21 @@ def show_restaurant(request, restaurant_name_slug):
     try:
         restaurant = RestaurantProfile.objects.get(slug=restaurant_name_slug)
         context_dict['restaurant'] = restaurant
-        context_dict['meals'] = Meal.objects.filter(
+        meals = Meal.objects.filter(
             restaurant_slug=restaurant_name_slug)
+        favourites = Favourite.objects.filter(
+            meal__restaurant_slug=restaurant_name_slug)
+        context_dict['favourites'] = favourites
+
+        result = []
+        for meal in meals:
+            if any(x.meal.meal_id == meal.meal_id for x in favourites) != True:
+                result.append(meal)
+        context_dict['not_favourites'] = result
     except Restaurant.DoesNotExist:
         context_dict['restaurant'] = None
-        context_dict['meals'] = None
+        context_dict['not_favourites'] = None
+        context_dict['favourites'] = None
     return render(request, 'food_cloud/restaurant.html', context=context_dict)
 
 
@@ -470,3 +480,21 @@ def add_order(request, meal_name_slug):
         meal=meal, customer=user, date=datetime.now())
     order.save()
     return index(request)
+
+
+@login_required
+def add_favourite(request, meal_name_slug):
+    meal = Meal.objects.get(slug=meal_name_slug)
+    user = UserProfile.objects.get(user=request.user)
+    favourite = Favourite.objects.create(
+        meal=meal, customer=user)
+    favourite.save()
+    return show_restaurant(request, meal.restaurant_slug)
+
+
+@login_required
+def remove_favourite(request, meal_name_slug):
+    meal = Meal.objects.get(slug=meal_name_slug)
+    instance = Favourite.objects.filter(meal__slug=meal_name_slug)
+    instance.delete()
+    return show_restaurant(request, meal.restaurant_slug)
