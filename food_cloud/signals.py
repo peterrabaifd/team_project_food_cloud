@@ -1,6 +1,6 @@
 from django.db.models import signals
 from django.dispatch import receiver
-from food_cloud.models import Meal, RestaurantProfile, Order
+from food_cloud.models import Meal, RestaurantProfile, Order, Rating
 
 
 @receiver(signals.pre_save, sender=Meal)
@@ -15,5 +15,6 @@ def update_restaurant(sender, instance, **kwargs):
     restaurant.save()
 
 @receiver(signals.post_save, sender=Order)
+@receiver(signals.post_save, sender=Rating)
 def update_meal_orders(sender, instance, **kwargs):
     instance.meal.save()

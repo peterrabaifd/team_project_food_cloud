@@ -8,7 +8,11 @@ class MealAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug':('meal_name',)}
 	list_display = ('meal_name', 'restaurant_slug', 'num_orders')
 
+class RatingAdmin(admin.ModelAdmin):
+	list_display = ('meal', 'rating')
+
 admin.site.register(Category)
 admin.site.register(Meal, MealAdmin)
 admin.site.register(UserProfile)
 admin.site.register(RestaurantProfile, RestaurantAdmin)
+admin.site.register(Rating, RatingAdmin)
