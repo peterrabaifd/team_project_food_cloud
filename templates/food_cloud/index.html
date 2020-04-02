@@ -102,11 +102,20 @@ Homepage
 						{% if favorites %}
 						<ul class="list-group">
 							{% for favorite in favorites %}
-							<li class="list-group-item">
-								<a
-									href="{% url 'food_cloud:add_order' favorite.meal.slug favorite.meal.restaurant_slug %}">
-									{{ category.name }}</a>
+								<li class="list-group-item">
+								<ul class="list-group">
+									<img src={{ favorite.meal.picture }}/>
+									<li class="list-group-item">{{ favorite.meal.meal_name }}</li>
+									<li class="list-group-item">£{{ favorite.meal.price }}</li>
+									<li class="list-group-item">{{ favorite.meal.description }}</li>
+									{% if user.is_authenticated %}
+									<button class="order_button"><a class="order_link"
+										href="{% url 'food_cloud:add_order' favorite.meal.slug favorite.meal.restaurant_slug %}">Order</a></button>
+									{% endif %}
+								</ul>
 							</li>
+
+							
 							{% endfor %}
 						</ul>
 						{% else %}
