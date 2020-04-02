@@ -26,7 +26,7 @@ def populate():
 			'Meatball Hotdog': {'description': "American style excess of meaty goodness!", 'price': 15, 'restaurant_slug': "hotdogs-galore", 'picture': "/media/meal_images/meatball_hotdog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
 			'Pickle Dog': {'description': "You prefer pickles to hotdogs? We've got you covered!... in pickles.", 'price': 20, 'restaurant_slug': "hotdogs-galore", 'picture': "/media/meal_images/pickle_dog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
 			'Standard Burger': {'description': "For when you just want a trusty, classic meal.", 'price': 10, 'restaurant_slug': "all-day-pizza", 'picture': "/media/meal_images/standard_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Standard Hotdog': {'description': "Great party food for watching your favourite team with friends!", 'price': 10, 'restaurant_slug': "hotdogs-galore", 'picture': "/media/meal_images/standard_hotdog.jpg", 'average_rating': 3.5, 'num_orders': 2},
+			'Standard Hotdog': {'description': "Great party food for watching your favourite team with friends!", 'price': 10, 'restaurant_slug': "hotdogs-galore", 'picture': "/media/meal_images/standard_hotdog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
 			'Trex Burger': {'description': "For when you just want to utterly destroy your own health!", 'price': 5, 'restaurant_slug': "burger-emporium", 'picture': "/media/meal_images/trex_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2}}
 
 	add_restaurant()
