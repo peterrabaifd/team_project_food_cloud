@@ -8,9 +8,9 @@ from food_cloud.models import *
 
 def populate():
 
-	meals = {'Test_meal_1': {'description': "Test_meal_1 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 4, 'num_orders': 5}, 
-			'Test_meal_2': {'description': "Test_meal_2 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 4.9, 'num_orders': 10},
-			'Test_meal_3': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "static/images/meal_default.jpg", 'average_rating': 3.5, 'num_orders': 2}}
+	meals = {'Test_meal_1': {'description': "Test_meal_1 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/meal_default.jpg", 'average_rating': 4, 'num_orders': 5}, 
+			'Test_meal_2': {'description': "Test_meal_2 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/meal_default.jpg", 'average_rating': 4.9, 'num_orders': 10},
+			'Test_meal_3': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/meal_default.jpg", 'average_rating': 3.5, 'num_orders': 2}}
 
 	add_restaurant()
 

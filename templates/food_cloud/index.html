@@ -97,6 +97,7 @@
 							{% for meal in meals %}
 								<li class="list-group-item">
 									<ul class="list-group">
+										<img src= {{ meal.picture }} />
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
 										<button class="order_button"><a class="order_link" href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
@@ -153,6 +154,7 @@
 							{% for meal in meals %}
 								<li class="list-group-item">
 									<ul class="list-group">
+										<img src= {{ meal.picture }} />
 										<li class="list-group-item">{{ meal.meal_name }}</li>
 										<li class="list-group-item">{{ meal.description }}</li>
 									</ul>

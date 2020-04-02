@@ -73,9 +73,9 @@ class Meal(models.Model):
     picture = models.ImageField(upload_to='profile_images', blank=True)
     slug = models.SlugField(unique=False)
     customers = models.ManyToManyField(
-        'UserProfile', through='Order', related_name='ordered_meals')
+        'UserProfile', through='Order', related_name='ordered_meals', blank=True)
     customer_favourites = models.ManyToManyField(
-        'UserProfile', through='Favourite', related_name='favourite_meals')
+        'UserProfile', through='Favourite', related_name='favourite_meals', blank=True)
 
     def calculate_orders(self):
         orders = Order.objects.filter(meal=self)
