@@ -135,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR, MEDIA_DIR, ]
-STATIC_ROOT = /home/pkovacs92/team_project_food_cloud/static
+STATIC_ROOT = '/home/pkovacs92/team_project_food_cloud/static'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 LOGIN_URL = 'food_cloud:login'
