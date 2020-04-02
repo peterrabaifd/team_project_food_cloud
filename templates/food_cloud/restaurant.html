@@ -34,7 +34,7 @@
 							<div class="row">
 								<p class="col-8"><img src={{ meal.picture }}/></p>
 							    <p class="col-8">{{ meal.meal_name }}</p>
-							    <p class="col-8">{{ meal.price }}</p>
+							    <p class="col-8">£{{ meal.price }}</p>
 							    <a href="" class="col-3">Order</a>
 								<a href="{% url 'food_cloud:add_favourite' meal.slug %}" class="col-3">Favourite</a>
 								
@@ -46,7 +46,7 @@
 							{% for meal in favourites %}
 							<div class="row">
 							    <p class="col-8">{{ meal.meal.meal_name }}</p>
-							    <p class="col-8">{{ meal.meal.price }}</p>
+							    <p class="col-8">£{{ meal.meal.price }}</p>
 							    <a href="" class="col-3">Order</a>
 								<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}" class="col-3">Unfavourite</a>	
 						    </div>
