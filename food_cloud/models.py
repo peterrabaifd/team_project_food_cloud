@@ -49,17 +49,6 @@ class RestaurantProfile(models.Model):
         return self.restaurant_name
 
 
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         UserProfile.objects.create(user=instance)
-
-
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.userprofile.save()
-
-
 class Meal(models.Model):
     meal_id = models.UUIDField(
         max_length=10, primary_key=True, default=uuid.uuid4, blank=True)
@@ -86,9 +75,23 @@ class Meal(models.Model):
             self.num_orders = sum(order_amounts)
             print("Orders Exist")
 
+    def calculate_average_rating(self):
+        ratings = Rating.objects.filter(meal=self)
+        if ratings:
+            meal_ratings = list()
+            for rating in ratings:
+                if rating.rating > 0:
+                    meal_ratings.append(rating.rating)
+                    self.average_rating = round(mean(meal_ratings), 1)
+            print("Ratings Exist")
+        else:
+            print("No Ratings")
+            self.average_rating = 0
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.meal_name)
         self.calculate_orders()
+        self.calculate_average_rating()
         while not self.meal_id:
             newid = ''.join([
                     random.sample(string.letters, 2),
@@ -124,15 +127,17 @@ class Order(models.Model):
 
 class Favourite(models.Model):
     meal = models.ForeignKey(
-        'Meal', related_name='favourites', on_delete=models.SET_NULL, null=True)
+        'Meal', related_name='favourites', on_delete=models.CASCADE, null=True)
     customer = models.ForeignKey('UserProfile', related_name='favourites',
-                                 on_delete=models.SET_NULL, null=True, blank=True)
+                                 on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Rating(models.Model):
-    user_id = models.IntegerField()
-    restaurant_id = models.IntegerField()
-    rating = models.IntegerField()
+    meal = models.ForeignKey(
+        'Meal', related_name='ratings', on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey('UserProfile', related_name='ratings',
+                                 on_delete=models.SET_NULL, null=True, blank=True)
+    rating = models.PositiveIntegerField(default=0)
 
 
 class Category(models.Model):

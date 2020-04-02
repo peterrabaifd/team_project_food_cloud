@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from food_cloud.models import *
 from food_cloud.forms import *
 from django.shortcuts import redirect
@@ -422,19 +422,29 @@ def clear_amount_cookie(request):
 
 @login_required
 def add_order(request, meal_slug, meal_restaurant):
-    print("OK")
-    amount = get_server_side_cookie(request, 'amount', '1')
-    print(amount)
-    # clear_amount_cookie(request)
-    if amount is not None:
-        meal = Meal.objects.get(
-            slug=meal_slug, restaurant_slug=meal_restaurant)
-        user = UserProfile.objects.get(user=request.user)
-        order = Order.objects.create(
+    # print("OK")
+    # amount = get_server_side_cookie(request, 'amount', '1')
+    # print(amount)
+    # # clear_amount_cookie(request)
+    # if amount is not None:
+    #     meal = Meal.objects.get(
+    #         slug=meal_slug, restaurant_slug=meal_restaurant)
+    #     user = UserProfile.objects.get(user=request.user)
+    #     order = Order.objects.create(
+    #         meal=meal, customer=user, amount=amount, date=datetime.now())
+    #     order.save()
+    #     # clear_amount_cookie(request)
+	amount = request.GET.get('amount', None)
+	print(amount)
+	if amount is not None:
+		meal = Meal.objects.get(slug=meal_slug, restaurant_slug=meal_restaurant)
+		user = UserProfile.objects.get(user=request.user)
+		order = Order.objects.create(
             meal=meal, customer=user, amount=amount, date=datetime.now())
-        order.save()
-        # clear_amount_cookie(request)
-    return redirect('food_cloud:index')
+		data = {'success': True}
+	else:
+		data = {'success': False}
+	return JsonResponse(data)
 
 
 @login_required
@@ -453,3 +463,21 @@ def remove_favourite(request, meal_name_slug):
     instance = Favourite.objects.filter(meal__slug=meal_name_slug)
     instance.delete()
     return redirect('food_cloud:show_restaurant', meal.restaurant_slug)
+
+
+@login_required
+def rate_meal(request, meal_slug, meal_restaurant):
+	rating_value = request.GET.get('rating', None)
+	print(rating_value)
+	if rating_value is not None:
+		meal = Meal.objects.get(slug=meal_slug, restaurant_slug=meal_restaurant)
+		user = UserProfile.objects.get(user=request.user)
+		rating, created = Rating.objects.get_or_create(meal=meal, customer=user)
+		if not created:
+			print("here")
+			rating.rating = rating_value
+			rating.save()
+		data = {'success': True}
+	else:
+		data = {'success': False}
+	return JsonResponse(data)

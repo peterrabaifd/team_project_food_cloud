@@ -2,183 +2,154 @@
 {% load staticfiles %}
 
 {% block title_block %}
-	Homepage
+Homepage
 {% endblock %}
 
 {% block body_block %}
-		<div class="jumbotron p-2">
-			<div class="container">
-				<div>
-					<h2 class="h2">
-					{% if user.is_authenticated %}
-					Logged in version of Homepage
-					{% else %}
-					No logged in user, base version of Homepage
-					{% endif %}
-					</h2>
-					<strong>{{ boldmessage }}</strong>
-				</div>
-			</div>
+<div class="jumbotron p-2">
+	<div class="container">
+		<div>
+			<h2 class="h2">
+				{% if user.is_authenticated %}
+				Logged in version of Homepage
+				{% else %}
+				No logged in user, base version of Homepage
+				{% endif %}
+			</h2>
+			<strong>{{ boldmessage }}</strong>
 		</div>
-		
-		{% if user.is_authenticated %}
-		<div class="container-fluid">
+	</div>
+</div>
 
-			<div class="row">
-				<div class="col-md-8 offset-md-2">
-					<form class="form-inline" id="user-form" method="POST" action="{% url 'food_cloud:search_restaurants' %}">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+			<form class="form-inline" id="user-form" method="POST"
+				action="{% url 'food_cloud:search_restaurants' %}">
 				{% csrf_token %}
-
 				<div class="form-group">
-					<input class="form-control" type="text" size="50" name="query" id="query" value="{{ query }}"/>
+					<input class="form-control" type="text" size="50" name="query" id="query"
+						value="{{ query }}" />
 				</div>
-
 				<button class="btn btn-primary" type="submit" name="submit">Search</button>
-				</form>
-				</div>
-			</div>
+			</form>
+		</div>
+	</div>
 
-			<div class="row">
-				<div class="col-md-4">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h2>Meals for logged in(WIP)</h2>
-							<p class="card-text">
-							{% if categories %}
-							<ul class="list-group">
-							{% for category in categories %}
-								<li class="list-group-item">
-								<a href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">
-								{{ category.name }}</a>
-								</li>
-							{% endfor %}
-							</ul>
-							{% else %}
-							<strong>There are no categories present.</strong>
-							{% endif %}
-							</p>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-md-4">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h2>Featured Restaurants(WIP)</h2>
-							<p class="card-text">
-							{% if restaurants %}
-							<ul class="list-group">
-							{% for restaurant in restaurants %}
-							<div class="row">
-
+	<div class="col-md-4">
+		<div class="card mb-4">
+			<div class="card-body">
+				<h2>Featured Restaurants(WIP)</h2>
+				<p class="card-text">
+					{% if restaurants %}
+					<ul class="list-group">
+						{% for restaurant in restaurants %}
+						<div class="row">
 							<h3>
 								<p>{{ restaurant.restaurant_name }}</p>
 								<p>{{ restaurant.type }}</p>
 							</h3>
-							<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}" class="col-4">Order from this restaurant</a>
-							</div>
-							{% endfor %}
-							</ul>
-							{% else %}
-							<strong>There are no restaurants present.</strong>
-							{% endif %}
-							</p>
+							<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
+								class="col-4">Order from this restaurant</a>
 						</div>
-					</div>
-				</div>
-				
-				<div class="col-md-4">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h2>Favourites(WIP)</h2>
-							<p class="card-text">
-							{% if meals %}
-							<ul class="list-group">
-							{% for meal in meals %}
-								<li class="list-group-item">
-									<ul class="list-group">
-										<img src= {{ meal.picture }} />
-										<li class="list-group-item">{{ meal.meal_name }}</li>
-										<li class="list-group-item">{{ meal.description }}</li>
-										<button class="order_button"><a class="order_link" href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
-									</ul>
-								</li>
-							{% endfor %}
-							</ul>
-							{% else %}
-							<strong>There are no meals present.</strong>
-							{% endif %}
-							</p>
-						</div>
-					</div>
-				</div>
+						{% endfor %}
+					</ul>
+					{% else %}
+					<strong>There are no restaurants present.</strong>
+					{% endif %}
+				</p>
+			</div>
+		</div>
+	</div>
 
-				<div class="col-md-4">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h2>Orders(WIP)</h2>
-							<p class="card-text">
-							{% if orders %}
+	<div class="col-md-4">
+		<div class="card mb-4">
+			<div class="card-body">
+				<h2>Popular Meals</h2>
+				<p class="card-text">
+					{% if meals %}
+					<ul class="list-group">
+						{% for meal in meals %}
+						<li class="list-group-item">
 							<ul class="list-group">
+								<li class="list-group-item">{{ meal.meal_name }}</li>
+								<li class="list-group-item">{{ meal.description }}</li>
+								{% if user.is_authenticated %}
+								<button class="order_button"><a class="order_link"
+										href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
+								{% endif %}
+							</ul>
+						</li>
+						{% endfor %}
+					</ul>
+					{% else %}
+					<strong>There are no meals present.</strong>
+					{% endif %}
+				</p>
+			</div>
+		</div>
+	</div>
+	{% if user.is_authenticated %}
+	<div class="row">
+		<div class="col-md-4">
+			<div class="card mb-4">
+				<div class="card-body">
+					<h2>Favorite Meals</h2>
+					<p class="card-text">
+						{% if favorites %}
+						<ul class="list-group">
+							{% for favorite in favorites %}
+							<li class="list-group-item">
+								<a
+									href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">
+									{{ category.name }}</a>
+							</li>
+							{% endfor %}
+						</ul>
+						{% else %}
+						<strong>There are no categories present.</strong>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="card mb-4">
+				<div class="card-body">
+					<h2>Orders(WIP)</h2>
+					<p class="card-text">
+						{% if orders %}
+						<ul class="list-group">
 							{% for order in orders %}
-								<li class="list-group-item">
-									<ul class="list-group">
-										<li class="list-group-item">{{ order.meal.meal_name }}</li>
-										<li class="list-group-item">{{ order.date }}</li>
-										<li class="list-group-item">{{ order.amount }}</li>
-									</ul>
-								</li>
+							<li class="list-group-item">
+								<ul class="list-group">
+									<li class="list-group-item">{{ order.meal.meal_name }}</li>
+									<li class="list-group-item">{{ order.date }}</li>
+									<li class="list-group-item">{{ order.amount }}</li>
+									<li class="list-group-item">
+										<span class="rating"
+											href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">{{ order.meal.average_rating }}</span>
+									</li>
+								</ul>
+							</li>
 							{% endfor %}
-							</ul>
-							{% else %}
-							<strong>There are no orders present.</strong>
-							{% endif %}
-							</p>
-						</div>
-					</div>
+						</ul>
+						{% else %}
+						<strong>There are no orders present.</strong>
+						{% endif %}
+					</p>
 				</div>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>
+<div>
+	<img src="{% static 'images/food_cloud.jpg' %}" alt="Picture of food_cloud" />
+</div>
 
-				
-			</div>
-		</div>
-		{% else %}
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="card mb-4">
-						<div class="card-body">
-							<h2>Meals for not logged in(WIP)</h2>
-							<p class="card-text">
-							{% if meals %}
-							<ul class="list-group">
-							{% for meal in meals %}
-								<li class="list-group-item">
-									<ul class="list-group">
-										<img src= {{ meal.picture }} />
-										<li class="list-group-item">{{ meal.meal_name }}</li>
-										<li class="list-group-item">{{ meal.description }}</li>
-									</ul>
-								</li>
-							{% endfor %}
-							</ul>
-							{% else %}
-							<strong>There are no meals present.</strong>
-							{% endif %}
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-8">
-				</div>
-			</div>
-		</div>
-		{% endif %}
-		
-		<div>
-			<img src="{% static 'images/food_cloud.jpg' %}" alt="Picture of food_cloud" />
-		</div>
-		
-		{% block extrajs %}
-			<script src="{% static 'js/script.js' %}"></script>
-		{% endblock %}	
+{% block extrajs %}
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
 {% endblock %}

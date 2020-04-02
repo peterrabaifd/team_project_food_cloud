@@ -2,7 +2,8 @@
 {% load staticfiles %}
 {% load food_cloud_template_tags %}
 <html lang="en">
-    <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -12,73 +13,103 @@
     <title>
         food_cloud - {% block title_block %}FOOD CLOUD{% endblock %}
     </title>
-    
+
     <!-- Bootstrap core CSS -->
-    {% comment %} <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> {% endcomment %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% comment %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous"> {% endcomment %}
+    <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    </head>
-    
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">                
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index' %}">Home</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about' %}">About</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact' %}">Contact</a></li>
-						<!-- <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search' %}">Search</a></li> -->
-                        {% if user.is_authenticated %}
-                        <!-- <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:restricted' %}">Restricted</a></li> -->
-                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:logout' %}?next=/food_cloud/">Logout</a></li>
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:register_choice' %}">Register</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:login_choice' %}">Login</a></li>
-                        {% endif %}
-                    </ul>
-					<ul class="nav navbar-nav navbar-right">
-						{% if user.is_authenticated %}
-							<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:profile' user.username %}">Account: {{ user.username }}</a></li>
-						{% endif %}
-					</ul>
-                </div>
-            </nav>
-        </header>
-        
-        <div class="container-fluid">
-            <div class="row">
-<!--                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link"
+                            href="{% url 'food_cloud:index' %}">Home</a></li>
+                    <li class="nav-item "><a class="nav-link"
+                            href="{% url 'food_cloud:about' %}">About</a></li>
+                    <li class="nav-item "><a class="nav-link"
+                            href="{% url 'food_cloud:contact' %}">Contact</a></li>
+                    <li class="nav-item "><a class="nav-link"
+                            href="{% url 'food_cloud:search' %}">Search</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item "><a class="nav-link"
+                            href="{% url 'food_cloud:restricted' %}">Restricted</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="{% url 'food_cloud:logout' %}?next=/food_cloud/">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link"
+                            href="{% url 'food_cloud:register_choice' %}">Register</a></li>
+                    <li class="nav-item "><a class="nav-link"
+                            href="{% url 'food_cloud:login_choice' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link"
+                            href="{% url 'food_cloud:profile' user.username %}">Account:
+                            {{ user.username }}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!--                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                     {% block sidebar_block %}
                         {% get_category_list category %}
                     {% endblock %}
                     </div>
                 </nav> -->
-                
-                <main role="main" class="col-md-20  ml-sm-auto col-lg-12 px-4">		
-                    {% block body_block %}min-width: fit-content;{% endblock %}
-                    
-                    <!-- FOOTER -->
-                    <footer>
-                        <p class="float-right"><a href="#">Back to top</a></p>
-                        <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-                    </footer>
-                </main>
-            </div>
+
+            <main role="main" class="col-md-20  ml-sm-auto col-lg-12 px-4">
+                {% block body_block %}min-width: fit-content;{% endblock %}
+
+                <!-- FOOTER -->
+                <footer>
+                    <p class="float-right"><a href="#">Back to top</a></p>
+                    <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a
+                            href="#">Terms</a></p>
+                </footer>
+            </main>
         </div>
-        
-        <!-- Bootstrap core JavaScript -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
-        <script src="{% static 'js/feather.min.js' %}"></script>
-        <script src="{% static 'js/dashboard.js' %}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-        {% block extrajs %}{% endblock %}
-    </body>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"
+        integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'js/feather.min.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    {% block extrajs %}{% endblock %}
+</body>
+
 </html>
