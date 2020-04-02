@@ -72,6 +72,7 @@ Homepage
 								<ul class="list-group">
 									<img src={{ meal.picture }} />
 									<li class="list-group-item">{{ meal.meal_name }}</li>
+									<li class="list-group-item">£{{ meal.price }}</li>
 									<li class="list-group-item">{{ meal.description }}</li>
 									{% if user.is_authenticated %}
 									<a href="" onclick="return false;" class="col-3"><span
@@ -111,6 +112,8 @@ Homepage
 									</p>
 								</div>
 							</li>
+
+							
 							{% endfor %}
 						</ul>
 						{% else %}
