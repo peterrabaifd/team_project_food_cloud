@@ -23,7 +23,7 @@ Homepage
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8 offset-md-2">
+		<div class="col-md-8 offset-md-3">
 			<form class="form-inline" id="user-form" method="POST"
 				action="{% url 'food_cloud:search_restaurants' %}">
 				{% csrf_token %}
@@ -40,15 +40,20 @@ Homepage
 		<div class="card mb-4">
 			<div class="card-body">
 				<h2>Featured Restaurants(WIP)</h2>
+				<hr />
 				<p class="card-text">
 					{% if restaurants %}
 					<ul class="list-group">
 						{% for restaurant in restaurants %}
-						<div class="row">
-							<h3>
+						<div>
+							<p><span>
+									<h3>{{ restaurant.restaurant_name }}</h3>
+									<h5>{{ restaurant.type }}</h5>
+								</span></p>
+							<!-- <h3>
 								<p>{{ restaurant.restaurant_name }}</p>
 								<p>{{ restaurant.type }}</p>
-							</h3>
+							</h3> -->
 							<a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
 								class="col-4">Order from this restaurant</a>
 						</div>
@@ -72,12 +77,12 @@ Homepage
 						{% for meal in meals %}
 						<li class="list-group-item">
 							<ul class="list-group">
-								<img src={{ meal.picture }}/>
+								<img src={{ meal.picture }} />
 								<li class="list-group-item">{{ meal.meal_name }}</li>
 								<li class="list-group-item">{{ meal.description }}</li>
 								{% if user.is_authenticated %}
-								<button class="order_button"><a class="order_link"
-										href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</a></button>
+								<button class="order_button"><span class="order_link"
+										href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></button>
 								{% endif %}
 							</ul>
 						</li>
@@ -101,9 +106,7 @@ Homepage
 						<ul class="list-group">
 							{% for favorite in favorites %}
 							<li class="list-group-item">
-								<a
-									href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">
-									{{ category.name }}</a>
+								{{favorite.meal}}
 							</li>
 							{% endfor %}
 						</ul>
@@ -118,7 +121,7 @@ Homepage
 		<div class="col-md-4">
 			<div class="card mb-4">
 				<div class="card-body">
-					<h2>Orders(WIP)</h2>
+					<h2>Recent Orders</h2>
 					<p class="card-text">
 						{% if orders %}
 						<ul class="list-group">
@@ -129,8 +132,11 @@ Homepage
 									<li class="list-group-item">{{ order.date }}</li>
 									<li class="list-group-item">{{ order.amount }}</li>
 									<li class="list-group-item">
-										<span class="rating"
-											href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">{{ order.meal.average_rating }}</span>
+										<span>
+											<p>Current Rating: {{ order.meal.average_rating }}</p>
+											<button class="rating"
+												href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">Rate</button>
+										</span>
 									</li>
 								</ul>
 							</li>
