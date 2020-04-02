@@ -28,9 +28,9 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index_restaurant' %}">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about_restaurant' %}">About</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact_restaurant' %}">Contact</a></li>
-						<li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search_restaurant' %}">Search</a></li>
+						<!-- <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search_restaurant' %}">Search</a></li> -->
                         {% if user.is_authenticated %}
-                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:restricted' %}">Restricted</a></li>
+                        <!-- <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:restricted' %}">Restricted</a></li> -->
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:logout' %}?next=/food_cloud/">Logout</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_meal' %}">Add Meal</a></li>
                         {% else %}
