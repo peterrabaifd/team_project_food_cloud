@@ -55,8 +55,6 @@ urlpatterns = [
     path('search_restaurant/', views.search_restaurant, name='search_restaurant'),
     path('search_restaurants/',
          views.search_restaurants, name='search_restaurants'),
-    path('category/<slug:category_name_slug>/',
-         views.show_category, name='show_category'),
     path('restricted/', views.restricted, name='restricted'),
     path('rate_meal/<meal_slug>/<meal_restaurant>/', views.rate_meal, name='rate_meal'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

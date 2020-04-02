@@ -2,6 +2,7 @@ from django.contrib import admin
 from food_cloud.models import *
 
 class RestaurantAdmin(admin.ModelAdmin):
+	list_display = ('restaurant_name',)
 	prepopulated_fields = {'slug':('restaurant_name',)}
 
 class MealAdmin(admin.ModelAdmin):

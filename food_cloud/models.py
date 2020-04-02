@@ -38,7 +38,6 @@ class RestaurantProfile(models.Model):
             print("Meals Exist")
         else:
             print("No Meals Present")
-            self.average_rating = 0
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.restaurant_name)
@@ -86,7 +85,6 @@ class Meal(models.Model):
             print("Ratings Exist")
         else:
             print("No Ratings")
-            self.average_rating = 0
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.meal_name)
