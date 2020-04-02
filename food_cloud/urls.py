@@ -31,7 +31,8 @@ urlpatterns = [
     path('login_choice/', views.login_choice, name='login_choice'),
     path('login/', views.user_login, name='login'),
     path('login_restaurant/', views.restaurant_login, name='login_restaurant'),
-    path('add_order/<meal_name_slug>', views.add_order, name='add_order'),
+    path('add_order/<meal_slug>/<meal_restaurant>/',
+         views.add_order, name='add_order'),
     path('add_favourite/<meal_name_slug>',
          views.add_favourite, name='add_favourite'),
     path('remove_favourite/<meal_name_slug>',
@@ -56,8 +57,5 @@ urlpatterns = [
          views.search_restaurants, name='search_restaurants'),
     path('category/<slug:category_name_slug>/',
          views.show_category, name='show_category'),
-    path('add_category/', views.add_category, name='add_category'),
-    path('category/<slug:category_name_slug>/add_page/',
-         views.add_page, name='add_page'),
     path('restricted/', views.restricted, name='restricted'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
