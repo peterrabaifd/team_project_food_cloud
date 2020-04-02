@@ -24,16 +24,17 @@
 			</div>
 		</div>
 
-		<div class="col-md-6 offset-md-3">
-					<div class="card mb-4">
+		<div class="col-md-8 offset-md-3">
+					<div class="card mb-8">
 						<div class="card-body">
 							<h2>Featured Meals</h2>
 							<p class="card-text">
 							<ul class="list-group">
 							{% for meal in not_favourites %}
 							<div class="row">
-							    <p class="col-3">{{ meal.meal_name }}</p>
-							    <p class="col-3">{{ meal.price }}</p>
+								<p class="col-8"><img src={{ meal.picture }}/></p>
+							    <p class="col-8">{{ meal.meal_name }}</p>
+							    <p class="col-8">{{ meal.price }}</p>
 							    <a href="" class="col-3">Order</a>
 								<a href="{% url 'food_cloud:add_favourite' meal.slug %}" class="col-3">Favourite</a>
 								
@@ -44,8 +45,8 @@
 							{% endfor %}
 							{% for meal in favourites %}
 							<div class="row">
-							    <p class="col-3">{{ meal.meal.meal_name }}</p>
-							    <p class="col-3">{{ meal.meal.price }}</p>
+							    <p class="col-8">{{ meal.meal.meal_name }}</p>
+							    <p class="col-8">{{ meal.meal.price }}</p>
 							    <a href="" class="col-3">Order</a>
 								<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}" class="col-3">Unfavourite</a>	
 						    </div>

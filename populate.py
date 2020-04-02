@@ -15,19 +15,19 @@ from django.urls import reverse
 
 def populate():
 
-	meals = {'Bacon Banana Pancakes': {'description': "Bacon banana pancakes", 'price': 15, 'restaurant_slug': "gourmet-dining", 'picture': "/static/images/bacon_banana_pancakes.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Blue Cheese Burger': {'description': "Blue Cheese Burger", 'price': 15, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/blue_cheese_burger.jpg", 'average_rating': 3.5, 'num_orders': 2},
-			'Box of Donuts': {'description': "Box of Donuts", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/box_of_donuts.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Cabbage Bun Burger': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/cabbage_bun_burger.jpg", 'average_rating': 3.5, 'num_orders': 2},
-			'Creamy Tuscan Shrimp Linguine': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "gourmet-dining", 'picture': "/static/images/creamy_tuscan_shrimp_linguine.jpg", 'average_rating': 3.5, 'num_orders': 2},
-			'Dinosaur Chicken Nugget Pizza': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "all-day-pizza", 'picture': "/static/images/dinosaur_chicken_nugget_pizza.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Fried Chicken Feet': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/fried_chicken_feet.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Ham Banana Hollandaise': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "gourmet-dining", 'picture': "/static/images/ham-banana-hollandaise.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Meatball Hotdog': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/meatball_hotdog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Pickle Dog': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/pickle_dog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Standard Burger': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "all-day-pizza", 'picture': "/static/images/standard_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2},
-			'Standard Hotdog': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/standard_hotdog.jpg", 'average_rating': 3.5, 'num_orders': 2},
-			'Trex Burger': {'description': "Test_meal_3 description", 'price': 15, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/trex_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2}}
+	meals = {'Bacon Banana Pancakes': {'description': "Delicious sweet and savoury breakfast to be enjoyed by the whole family!", 'price': 20, 'restaurant_slug': "gourmet-dining", 'picture': "/static/images/bacon_banana_pancakes.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Blue Cheese Burger': {'description': "Exotic and unusual for the adventurous at heart!", 'price': 50, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/blue_cheese_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Box of Donuts': {'description': "Cant get any simpler than a big ol' box of donuts!", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/box_of_donuts.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Cabbage Bun Burger': {'description': "Is the bun your least favourite part of a regular burger? We replaced it with crunchy, healthy cabbage!", 'price': 75, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/cabbage_bun_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Creamy Tuscan Shrimp Linguine': {'description': "Exquisite european flavours at an affordable price!", 'price': 750, 'restaurant_slug': "gourmet-dining", 'picture': "/static/images/creamy_tuscan_shrimp_linguine.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Dinosaur Chicken Nugget Pizza': {'description': "A fun treat for the kids!", 'price': 15, 'restaurant_slug': "all-day-pizza", 'picture': "/static/images/dinosaur_chicken_nugget_pizza.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Fried Chicken Feet': {'description': "Delicious, deep fried, sweet n sour chicken feet!", 'price': 15, 'restaurant_slug': "cluckys", 'picture': "/static/images/fried_chicken_feet.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Ham Banana Hollandaise': {'description': "For when a regular hollandaise just wont do.", 'price': 65, 'restaurant_slug': "gourmet-dining", 'picture': "/static/images/ham-banana-hollandaise.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Meatball Hotdog': {'description': "American style excess of meaty goodness!", 'price': 15, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/meatball_hotdog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Pickle Dog': {'description': "You prefer pickles to hotdogs? We've got you covered!... in pickles.", 'price': 20, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/pickle_dog.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Standard Burger': {'description': "For when you just want a trusty, classic meal.", 'price': 10, 'restaurant_slug': "all-day-pizza", 'picture': "/static/images/standard_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2},
+			'Standard Hotdog': {'description': "Great party food for watching your favourite team with friends!", 'price': 10, 'restaurant_slug': "hotdogs-galore", 'picture': "/static/images/standard_hotdog.jpg", 'average_rating': 3.5, 'num_orders': 2},
+			'Trex Burger': {'description': "For when you just want to utterly destroy your own health!", 'price': 5, 'restaurant_slug': "burger-emporium", 'picture': "/static/images/trex_burger.jpeg", 'average_rating': 3.5, 'num_orders': 2}}
 
 	add_restaurant()
 
