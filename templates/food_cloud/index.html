@@ -104,7 +104,7 @@ Homepage
 							{% for favorite in favorites %}
 							<li class="list-group-item">
 								<a
-									href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">
+									href="{% url 'food_cloud:add_order' favorite.meal.slug favorite.meal.restaurant_slug %}">
 									{{ category.name }}</a>
 							</li>
 							{% endfor %}
