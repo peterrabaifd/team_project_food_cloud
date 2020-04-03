@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Login to food_cloud</h1>
+<h1>Food Cloud Restaurant Login</h1>
 <form id="login_form" method="post" action="{% url 'food_cloud:login_restaurant' %}">
 	{% csrf_token %}
 	Username: <input type="text" name="username" value="" size="50" />
