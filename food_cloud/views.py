@@ -18,7 +18,7 @@ from django.utils.decorators import method_decorator
 def index(request):
     context_dict = get_context_dict(request)
     context_dict['restaurants'] = RestaurantProfile.objects.order_by(
-        'restaurant_name')
+        'average_rating')[:5]
     context_dict['meals'] = Meal.objects.order_by(
         '-num_orders', '-average_rating')[:5]
 
@@ -377,12 +377,10 @@ def restricted(request):
 
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.COOKIES.get(cookie)
-    print(val)
     try:
         int(val)
     except (ValueError, TypeError):
         val = default_val
-        print(val + " here")
     return val
 
 
@@ -429,7 +427,7 @@ def add_favourite(request, meal_name_slug):
     favourite = Favourite.objects.create(
         meal=meal, customer=user)
     favourite.save()
-    return redirect('food_cloud:show_restaurant', meal.restaurant_slug)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
@@ -437,7 +435,7 @@ def remove_favourite(request, meal_name_slug):
     meal = Meal.objects.get(slug=meal_name_slug)
     instance = Favourite.objects.filter(meal__slug=meal_name_slug)
     instance.delete()
-    return redirect('food_cloud:show_restaurant', meal.restaurant_slug)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required

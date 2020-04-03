@@ -46,16 +46,17 @@ Homepage
 						<ul class="list-group">
 							{% for restaurant in restaurants %}
 							<li class="list-group-item">
-							<div class="row">
-								<div class="column">
-									<h4>{{ restaurant.restaurant_name }}</h4>
-									<h5>{{ restaurant.type }}</h5>
+								<div class="row">
+									<div class="column">
+										<h4>{{ restaurant.restaurant_name }}</h4>
+										<h5>{{ restaurant.type }}</h5>
+									</div>
+									<div class="column">
+										<h6 style="text-align: center;"><a
+												href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
+												class="col-4">Order from this restaurant</a></h6>
+									</div>
 								</div>
-								<div class="column">
-									<h6 style="text-align: center;"><a href="{% url 'food_cloud:show_restaurant' restaurant.slug %}"
-										class="col-4">Order from this restaurant</a></h6>
-								</div>
-							</div>
 							</li>
 							{% endfor %}
 						</ul>
@@ -77,13 +78,26 @@ Homepage
 							<li class="list-group-item">
 								<ul class="list-group">
 									<img src={{ meal.picture }} />
-									<li class="list-group-item">{{ meal.meal_name }}</li>
-									<li class="list-group-item">£{{ meal.price }}</li>
-									<li class="list-group-item">{{ meal.description }}</li>
+									<li class="list-group-item">
+										<div class="column">
+											<h4>{{ meal.meal_name }}</h4>
+										</div>
+										<div class="column" style="text-align: right;">
+											<h6 style="color: orangered;">£{{ meal.price }}</h6>
+										</div>
+									</li>
 									{% if user.is_authenticated %}
-									<a href="" onclick="return false;" class="col-3"><span
-											class="order_button"
-											href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></a>
+									<li class="list-group-item">
+										<div class="column">{{ meal.description }}</div>
+										<div class="column" style="text-align: right;">
+											<p><a href="" onclick="return false;"
+													class="col-3"><span class="order_button"
+														href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></a>
+											</p>
+										</div>
+									</li>
+									{% else %}
+									<li class="list-group-item">{{ meal.description }}</li>
 									{% endif %}
 								</ul>
 							</li>
@@ -116,6 +130,8 @@ Homepage
 											<span class="order_button"
 												href="{% url 'food_cloud:add_order' favorite.meal.slug favorite.meal.restaurant_slug %}">Order</span>
 										</a>
+										<a href="{% url 'food_cloud:remove_favourite' favorite.meal.slug %}"
+											class="col-3">Unfavourite</a>
 									</p>
 								</div>
 							</li>
