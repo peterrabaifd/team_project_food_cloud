@@ -1,0 +1,82 @@
+
+<!-- saved from url=(0133)https://www.pythonanywhere.com/user/pkovacs92/files/home/pkovacs92/team_project_food_cloud/templates/food_cloud/index_restaurant.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>{% extends 'food_cloud/base_restaurant.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Homepage
+{% endblock %}
+
+{% block body_block %}
+		<div class="jumbotron p-2">
+			<div class="container">
+				<h1 class="jumbotron-heading">food_cloud says...</h1>
+				<div>
+					<h2 class="h2">
+						Welcome to Food Cloud - Home for all Foodies
+					</h2>
+				</div>
+			</div>
+		</div>
+		
+		{% if user.is_authenticated %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card mb-4">
+						<div class="card-body">
+							<h2>Meals for logged in(WIP)</h2>
+							<p class="card-text">
+							{% if meals %}
+							</p><ul class="list-group">
+							{% for meal in meals %}
+								<li class="list-group-item">
+									<ul class="list-group">
+										<img src="./index_restaurant_files/{{" meal.picture="" }}="">
+										<li class="list-group-item">{{ meal.meal_name }}</li>
+										<li class="list-group-item">£{{ meal.price }}</li>
+										<li class="list-group-item">{{ meal.description }}</li>
+									</ul>
+								</li>
+							{% endfor %}
+							</ul>
+							{% else %}
+							<strong>There are no meals present.</strong>
+							{% endif %}
+							<p></p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-6">
+					<div class="card mb-4">
+						<div class="card-body">
+							<h2>Available meals</h2>
+							<p class="card-text">
+							{% if meals %}
+							</p><ul class="list-group">
+							{% for meal in meals %}
+								<li class="list-group-item">
+									<ul class="list-group">
+										<img src="./index_restaurant_files/{{" meal.picture="" }}="">
+										<li class="list-group-item">{{ meal.meal_name }}</li>
+										<li class="list-group-item">£{{ meal.price }}</li>
+										<li class="list-group-item">{{ meal.description }}</li>
+									</ul>
+								</li>
+							{% endfor %}
+							</ul>
+							{% else %}
+							<strong>There are no meals present.</strong>
+							{% endif %}
+							<p></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% else %}
+			<strong>No restaurant logged in!</strong>
+		{% endif %}
+{% endblock %}
+</body></html>
