@@ -12,6 +12,9 @@ class MealAdmin(admin.ModelAdmin):
 class RatingAdmin(admin.ModelAdmin):
 	list_display = ('meal', 'rating')
 
-admin.site.register(UserProfile)
+class UserAdmin(admin.ModelAdmin):
+	list_display = ('user',)
+
+admin.site.register(UserProfile, UserAdmin)
 admin.site.register(RestaurantProfile, RestaurantAdmin)
-admin.site.register(Rating, RatingAdmin)
+admin.site.register(Meal, MealAdmin)
