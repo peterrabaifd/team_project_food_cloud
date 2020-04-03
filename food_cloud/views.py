@@ -28,9 +28,6 @@ def index(request):
 
 def index_restaurant(request):
     context_dict = {}
-    # context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    # context_dict['categories'] = category_list
-    # context = RequestContext(request)
 
     meal_list = Meal.objects.order_by('meal_name')
 
@@ -117,6 +114,10 @@ def user_login(request):
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
+                try:
+                    customer = UserProfile.objects.get(user=user)
+                except UserProfile.DoesNotExist:
+                    return redirect(reverse('food_cloud:login_restaurant'))
                 login(request, user)
                 return redirect(reverse('food_cloud:index'))
             else:
@@ -135,6 +136,10 @@ def restaurant_login(request):
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
+                try:
+                    restaurant = RestaurantProfile.objects.get(user=user)
+                except RestaurantProfile.DoesNotExist:
+                    return redirect(reverse('food_cloud:login'))
                 login(request, user)
                 return redirect(reverse('food_cloud:index_restaurant'))
             else:
