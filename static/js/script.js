@@ -1,9 +1,3 @@
-var please = {
-    hidenow: function() {
-        return this.hide;
-    }
-}
-
 $(document).ready(function () {
     $(document).off('click', '.order_button').on('click', '.order_button', function () {
         var amount = prompt("Please enter amount of orders", "0");
@@ -53,11 +47,15 @@ $(document).ready(function () {
             });
         }
     });
-    // $.fn.stars = function() {
-    //     return this.each(function(i,e){$(e).html($('<span/>').width($(e).text()*16));});
-    // };
-
-    $('.stars').click(function () {
-        please.hidenow.call(this);
+    $('.favourite').each(function(index, value) {
+        var link = $(value).attr('href');
+        $.getJSON(link, function(data) {
+            $(value).children('.favourite_link').attr("href", data.url);
+            if (data.favourite) {
+                $(value).children('.favourite_link').text("Unfavourite");
+            } else {
+                $(value).children('.favourite_link').text("Favourite");
+            }
+        });
     });
 });

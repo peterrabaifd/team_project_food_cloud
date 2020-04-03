@@ -6,10 +6,11 @@ Homepage
 {% endblock %}
 
 {% block body_block %}
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-</head>	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
 
 <div class="jumbotron p-2">
 	<div class="container">
@@ -90,10 +91,15 @@ Homepage
 									<li class="list-group-item">
 										<div class="column">{{ meal.description }}</div>
 										<div class="column" style="text-align: right;">
-											<p><a href="" onclick="return false;"
-													class="col-3"><span class="order_button"
-														href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></a>
-											</p>
+											<a href="" onclick="return false;" class="col-3">
+												<span class="order_button"
+													href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span>
+											</a>
+											<span class="favourite"
+												href="/food_cloud/get_favourite_status/{{ meal.slug }}/">
+												<a style="float:inline-end;" href=""
+													class="favourite_link"></a>
+											</span>
 										</div>
 									</li>
 									{% else %}

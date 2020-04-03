@@ -19,7 +19,7 @@ from django.template.defaultfilters import slugify
 def index(request):
 	context_dict = get_context_dict(request)
 	context_dict['restaurants'] = RestaurantProfile.objects.order_by(
-		'average_rating')[:5]
+		'-average_rating')[:5]
 	context_dict['meals'] = Meal.objects.order_by(
 		'-num_orders', '-average_rating')[:5]
 
@@ -349,6 +349,18 @@ def show_meal(request, meal_name_slug):
 	except Meal.DoesNotExist:
 		context_dict['meal'] = None
 	return render(request, 'food_cloud/meal.html', context=context_dict)
+
+
+def get_favourite_status(request, meal_slug):
+	context_dict = {}
+	try:
+		favourite = Favourite.objects.get(meal=Meal.objects.get(
+            slug=meal_slug), customer=UserProfile.objects.get(user=request.user))
+		data = {'favourite': True, 'url': ("/food_cloud/remove_favourite/" + meal_slug)}
+	except Favourite.DoesNotExist:
+		data = {'favourite': False, 'url': "/food_cloud/add_favourite/" + meal_slug}
+
+	return JsonResponse(data)
 
 
 def show_restaurant(request, restaurant_name_slug):
