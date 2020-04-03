@@ -24,6 +24,7 @@ Unknown Restaurant
 	</div>
 </div>
 
+
 <div class="col-md-8 offset-md-3">
 	<div class="card mb-8">
 		<div class="card-body">
@@ -35,9 +36,8 @@ Unknown Restaurant
 						<p class="col-8"><img src={{ meal.picture }} /></p>
 						<p class="col-8">{{ meal.meal_name }}</p>
 						<p class="col-8">{{ meal.price }}</p>
-						<a href="" onclick="return false;"
-								class="col-3"><span class="order_button"
-									href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></a>
+						<a href="" onclick="return false;" class="col-3"><span class="order_button"
+								href="{% url 'food_cloud:add_order' meal.slug meal.restaurant_slug %}">Order</span></a>
 						<a href="{% url 'food_cloud:add_favourite' meal.slug %}"
 							class="col-3">Favourite</a>
 					</div>
@@ -47,9 +47,13 @@ Unknown Restaurant
 					{% endfor %}
 					{% for meal in favourites %}
 					<div class="row">
+						<p class="col-8"><img src={{ meal.meal.picture }}/></p>
 						<p class="col-8">{{ meal.meal.meal_name }}</p>
 						<p class="col-8">{{ meal.meal.price }}</p>
-						<a href="" class="col-3">Order</a>
+						<a href="" onclick="return false;"
+								class="col-3"><span class="order_button"
+									href="{% url 'food_cloud:add_order' meal.meal.slug meal.meal.restaurant_slug %}">Order</span></a>
+
 						<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}"
 							class="col-3">Unfavourite</a>
 					</div>
