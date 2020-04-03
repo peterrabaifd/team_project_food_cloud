@@ -141,8 +141,6 @@ Homepage
 									</p>
 								</div>
 							</li>
-
-
 							{% endfor %}
 						</ul>
 						{% else %}
@@ -162,20 +160,21 @@ Homepage
 						<ul class="list-group">
 							{% for order in orders %}
 							<li class="list-group-item">
-								<ul class="list-group">
-									<li class="list-group-item">{{ order.meal.meal_name }}</li>
-									<li class="list-group-item">Date: {{ order.date }}</li>
-									<li class="list-group-item">Amount: {{ order.amount }}</li>
-									<li class="list-group-item">
-										<span>
-											<p>Current Rating: {{ order.meal.average_rating }}</p>
-											<a href="" onclick="return false;" class="col-3">
-												<span class="rating"
-													href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">Rate</span>
-											</a>
-										</span>
-									</li>
-								</ul>
+								<div class="column">
+									<p>{{ order.meal.meal_name }}</p>
+									<p>Date: {{ order.date }}</p>
+									<p>Amount: {{ order.amount }}</p>
+								</div>
+								<div style="text-align: right;" class="column">
+									<p>Current Rating: {{ order.meal.average_rating }}</p>
+									<p>
+										<a href="" onclick="return false;" class="col-3">
+											<span class="rating"
+												href="{% url 'food_cloud:rate_meal' order.meal.slug order.meal.restaurant_slug %}">Rate</span>
+										</a>
+									</p>
+								</div>
+								</span>
 							</li>
 							{% endfor %}
 						</ul>
