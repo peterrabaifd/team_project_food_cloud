@@ -14,7 +14,7 @@ class MealForm(forms.ModelForm):
         help_text="Please enter the meal price.", min_value=0.01)
     picture = forms.ImageField(
         required=False, help_text="Please upload a picture.")
-    restaurant_slug = forms.SlugField(required=False, help_text="Please enter the slug of your restaurant.")
+    restaurant_slug = forms.SlugField(widget = forms.HiddenInput(), required=False, help_text="Please enter the slug of your restaurant.")
 
     def __init__(self, *args, **kwargs):
         self.restaurant_slug = kwargs.pop('restaurant_slug', None)
