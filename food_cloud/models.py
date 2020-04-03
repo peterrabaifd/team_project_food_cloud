@@ -58,7 +58,7 @@ class Meal(models.Model):
 	price = models.FloatField(default=0)
 	num_orders = models.PositiveIntegerField(default=0)
 	average_rating = models.FloatField(default=0)
-	restaurant_slug = models.CharField(max_length=30)
+	restaurant_slug = models.SlugField(unique=False)
 	picture = models.ImageField(upload_to='profile_images', blank=True)
 	slug = models.SlugField(unique=False)
 	customers = models.ManyToManyField(
@@ -108,11 +108,11 @@ class Meal(models.Model):
 		return self.meal_name
 
 
-class Restaurant(models.Model):
-	restaurant_id = models.IntegerField()
-	restaurant_name = models.CharField(max_length=30, unique=True)
-	type = models.CharField(max_length=30, unique=False)
-	average_rating = models.IntegerField()
+# class Restaurant(models.Model):
+	# restaurant_id = models.IntegerField()
+	# restaurant_name = models.CharField(max_length=30, unique=True)
+	# type = models.CharField(max_length=30, unique=False)
+	# average_rating = models.IntegerField()
 
 
 class Order(models.Model):
