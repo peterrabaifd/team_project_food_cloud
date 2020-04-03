@@ -107,14 +107,7 @@ class Meal(models.Model):
 	def __str__(self):
 		return self.meal_name
 
-
-# class Restaurant(models.Model):
-	# restaurant_id = models.IntegerField()
-	# restaurant_name = models.CharField(max_length=30, unique=True)
-	# type = models.CharField(max_length=30, unique=False)
-	# average_rating = models.IntegerField()
-
-
+		
 class Order(models.Model):
 	meal = models.ForeignKey(
 		'Meal', related_name='orders', on_delete=models.CASCADE, null=True)

@@ -43,12 +43,6 @@ def add_restaurant():
 	r3, created = RestaurantProfile.objects.get_or_create(user=User.objects.create_user(username="All day pizza"), restaurant_name="All day pizza", type="Pizza")
 	r4, created = RestaurantProfile.objects.get_or_create(user=User.objects.create_user(username="Gourmet Dining"), restaurant_name="Gourmet Dining", type="Chicken")
 	r5, created = RestaurantProfile.objects.get_or_create(user=User.objects.create_user(username="Hotdogs Galore"), restaurant_name="Hotdogs Galore", type="Hotdog")
-	# r1 = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="Clucky's", type="Chicken")
-	# r2 = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="Burger Emporium", type="Burger")
-	# r3 = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="All day pizza", type="Pizza")
-	# r4 = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="Gourmet Dining", type="Chicken")
-	# r5 = RestaurantProfile.objects.get_or_create(user=create_user(), restaurant_name="Hotdogs Galore", type="Hotdog")
-	#return r
 
 def create_user():
 	try:

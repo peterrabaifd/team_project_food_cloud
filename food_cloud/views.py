@@ -294,14 +294,11 @@ def add_meal(request):
 	restaurant = RestaurantProfile.objects.get_or_create(user=user)
 	restaurant_slug = slugify(request.user.username)
 	if request.method == 'POST':
-		#form = MealForm(request.POST, restaurant_slug=slugify(request.user.username))
 		form = MealForm(request.POST)
 		if form.is_valid():
 			candidate=form.save(commit=False)
 			candidate.restaurant_slug=slugify(request.user.username)
 			candidate.save()
-			# restaurant_slug=restaurant_slug
-			# form.save(commit=True)
 			return redirect('/food_cloud/index_restaurant/')
 		else:
 			print(form.errors)
