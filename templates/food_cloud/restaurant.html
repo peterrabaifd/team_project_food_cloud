@@ -51,7 +51,9 @@ Unknown Restaurant
 						<p class="col-8"><img src={{ meal.meal.picture }}/></p>
 						<p class="col-8">{{ meal.meal.meal_name }}</p>
 						<p class="col-8">{{ meal.meal.price }}</p>
-						<a href="" class="col-3">Order</a>
+						<a href="" onclick="return false;"
+								class="col-3"><span class="order_button"
+									href="{% url 'food_cloud:add_order' meal.meal.slug meal.meal.restaurant_slug %}">Order</span></a>
 						<a href="{% url 'food_cloud:remove_favourite' meal.meal.slug %}"
 							class="col-3">Unfavourite</a>
 					</div>
