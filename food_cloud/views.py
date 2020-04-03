@@ -99,7 +99,7 @@ def register_restaurant(request):
 			profile.user = user
 			profile.save()
 			registered = True
-			user_login(request)
+			restaurant_login(request)
 		else:
 			print(user_form.errors, profile_form.errors)
 	else:
