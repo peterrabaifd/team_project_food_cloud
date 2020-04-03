@@ -13,8 +13,35 @@
 		</div>
 		
 	{% if registered %}
+	<body>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">                
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:index_restaurant' %}">Home</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:about_restaurant' %}">About</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:contact_restaurant' %}">Contact</a></li>
+						<!-- <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:search_restaurant' %}">Search</a></li> -->
+                        {% if user.is_authenticated %}
+                        <!-- <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:restricted' %}">Restricted</a></li> -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:logout' %}?next=/food_cloud/">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:add_meal' %}">Add Meal</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:register_choice' %}">Register</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'food_cloud:login_choice' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+					<ul class="nav navbar-nav navbar-right">
+						{% if user.is_authenticated %}
+							<li class="nav-item"><a class="nav-link" href="{% url 'food_cloud:profile_restaurant' user.username %}">Account: {{ user.username }}</a></li>
+						{% endif %}
+					</ul>
+                </div>
+            </nav>
+        </header>
+	</body>
 		food_cloud says: <strong>thank you for registering!</strong>
-		<a href="{% url 'food_cloud:index' %}">Return to the homepage.</a><br />
+		<a href="{% url 'food_cloud:index_restaurant' %}">Return to the homepage.</a><br />
 	{% else %}
 	<form id="user_form" method="post" action="{% url 'food_cloud:register_restaurant' %}"
 		enctype="multipart/form-data">
