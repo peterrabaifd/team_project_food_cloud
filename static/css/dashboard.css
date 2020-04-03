@@ -8,12 +8,8 @@ body {
   vertical-align: text-bottom;
 }
 
-/*create coloumns for views */
-.row{
-    display:inline;
-    position:relative;
-    border-radius:25px;
-    width:50%;
+h2 {
+  text-align:center;
 }
 
 /*should edit Headings style*/
